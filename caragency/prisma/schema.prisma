@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String?
+  password  String
+  role      Role      @default(USER)
+  orders    Order[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Car {
+  id          String    @id @default(cuid())
+  brand       String
+  model       String
+  year        Int
+  price       Float
+  mileage     Int
+  fuelType    String
+  transmission String
+  description String
+  images      String[]
+  status      CarStatus @default(AVAILABLE)
+  orders      Order[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Order {
+  id        String    @id @default(cuid())
+  userId    String
+  carId     String
+  status    OrderStatus @default(PENDING)
+  user      User      @relation(fields: [userId], references: [id])
+  car       Car       @relation(fields: [carId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum CarStatus {
+  AVAILABLE
+  SOLD
+  RESERVED
+}
+
+enum OrderStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+}
