@@ -1,11 +1,11 @@
-import { InputHTMLAttributes, forwardRef } from 'react';
+import { TextareaHTMLAttributes, forwardRef } from 'react';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
+const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     ({ className = '', ...props }, ref) => {
         return (
-            <input
+            <textarea
                 ref={ref}
                 className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm ${className}`}
                 {...props}
@@ -14,6 +14,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     }
 );
 
-Input.displayName = 'Input';
+Textarea.displayName = 'Textarea';
 
-export { Input };
+export { Textarea }; 
