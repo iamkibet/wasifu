@@ -1,85 +1,93 @@
-import AppearanceToggleDropdown from '@/components/appearance-dropdown';
 import { Head, Link } from '@inertiajs/react';
-import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { CreditCard, FileCheck, FileText, Home, LogIn, PenTool, Sparkles, UserPlus } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function HomeLayout({ children, title }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 0);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const navItems = [
+        { name: 'Builders', href: '/', icon: Home },
+        { name: 'Resumes', href: '/features', icon: FileText },
+        { name: 'Cover Letters', href: '/plan', icon: PenTool },
+        { name: 'CVs', href: '/login', icon: FileCheck },
+        { name: 'Pricing', href: '/login', icon: CreditCard },
+    ];
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
             <Head title={title} />
 
-            {/* Floating Navigation */}
-            <nav className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/80">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 items-center justify-between">
-                        {/* Animated Logo */}
-                        <div className="flex-shrink-0">
-                            <Link
-                                href="/"
-                                className="group flex items-center text-center space-x-2 bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-2xl text-transparent"
-                            >
-                                Wa
-                                <span className="font-bold ">
-                                    Sifu
-                                </span>
-                                <span className="h-2 w-2 rounded-full bg-orange-600 group-hover:animate-pulse dark:bg-purple-400"></span>
-                            </Link>
-                        </div>
-
-                        {/* Desktop Navigation with Hover Effects */}
-                        <div className="hidden md:block">
-                            <div className="ml-10 flex items-center space-x-6">
-                                <NavLink href="/">Builders</NavLink>
-                                <NavLink href="/features">Resumes</NavLink>
-                                <NavLink href="/plan">Cover Letters</NavLink>
-
-                                <NavLink href="/login">CVs</NavLink>
-                                <NavLink href="/login">Pricing</NavLink>
-                                <Link className="rounded-lg bg-orange-600 px-4 py-2 text-white">
-                                    <span className="relative z-10">Get Started</span>
-                                    <div className="absolute inset-0 rounded-lg bg-white/10 opacity-0 transition-opacity hover:opacity-20"></div>
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Modern Mobile Menu Button */}
-                        <div className="md:hidden">
-                            <button
-                                type="button"
-                                className="rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
-                                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            >
-                                {isMenuOpen ? (
-                                    <X className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-                                ) : (
-                                    <Menu className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-                                )}
-                            </button>
-                        </div>
-                    </div>
+            {/* Floating Navigation Button */}
+            <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className={`fixed right-6 bottom-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-orange-600 to-orange-500 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:from-orange-500 dark:to-orange-400 ${
+                    isMenuOpen ? 'rotate-45' : ''
+                }`}
+            >
+                <div className="relative">
+                    <Sparkles className="h-8 w-8 text-white" />
+                    <div
+                        className={`absolute inset-0 h-full w-full rounded-full bg-white/20 transition-all duration-300 ${isMenuOpen ? 'scale-150 opacity-0' : 'scale-100 opacity-100'}`}
+                    />
                 </div>
+            </button>
 
-                {/* Animated Mobile Menu */}
-                <div className={`overflow-hidden transition-all duration-300 ease-out md:hidden ${isMenuOpen ? 'max-h-96' : 'max-h-0'}`}>
-                    <div className="space-y-4 bg-white px-4 pt-2 pb-8 dark:bg-gray-900">
-                        <MobileNavLink href="/">Builders</MobileNavLink>
-                        <MobileNavLink href="/features">Resumes</MobileNavLink>
-                        <MobileNavLink href="/pricing">CVs</MobileNavLink>
-                        <MobileNavLink href="/login">Login</MobileNavLink>
-                        <Link
-                            href="/register"
-                            className="block w-full rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-3 text-center font-medium text-white transition-all hover:from-blue-700 hover:to-purple-700"
-                        >
-                            Get Started
-                        </Link>
-                    </div>
+            {/* Floating Navigation Menu */}
+            <div
+                className={`fixed right-6 bottom-24 z-40 flex flex-col items-end space-y-4 transition-all duration-300 ${
+                    isMenuOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
+                }`}
+            >
+                {navItems.map((item, index) => (
+                    <Link
+                        key={item.name}
+                        href={item.href}
+                        className={`group flex items-center gap-3 rounded-full bg-white px-6 py-3 shadow-lg transition-all duration-300 hover:shadow-xl dark:bg-gray-800 ${
+                            isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                        }`}
+                        style={{ transitionDelay: `${index * 50}ms` }}
+                    >
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{item.name}</span>
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-orange-600 to-orange-500 text-white transition-transform group-hover:scale-110">
+                            <item.icon className="h-4 w-4" />
+                        </div>
+                    </Link>
+                ))}
+
+                {/* Auth Buttons */}
+                <div
+                    className={`flex gap-3 transition-all duration-300 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                    style={{ transitionDelay: `${navItems.length * 50}ms` }}
+                >
+                    <Link
+                        href="/login"
+                        className="flex items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                    >
+                        <LogIn className="h-4 w-4" />
+                        Login
+                    </Link>
+                    <Link
+                        href="/register"
+                        className="flex items-center gap-2 rounded-full bg-orange-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-700"
+                    >
+                        <UserPlus className="h-4 w-4" />
+                        Get Started
+                    </Link>
                 </div>
-            </nav>
+            </div>
 
-            {/* Main Content with Subtle Animation */}
-            <main className="animate-fade-in-up pt-16">{children}</main>
+            {/* Main Content */}
+            <main className="animate-fade-in-up">{children}</main>
 
             {/* Modern Gradient Footer */}
             <footer className="mt-24 border-t border-gray-100 bg-gradient-to-b from-white to-gray-50 dark:border-gray-800 dark:from-gray-900 dark:to-gray-800">
@@ -120,7 +128,6 @@ export default function HomeLayout({ children, title }) {
                                         {/* Twitter icon */}
                                     </svg>
                                 </button>
-                                {/* Add other social icons */}
                             </div>
                         </div>
                     </div>
@@ -129,25 +136,6 @@ export default function HomeLayout({ children, title }) {
         </div>
     );
 }
-
-// Reusable styled components
-const NavLink = ({ href, children }) => (
-    <Link
-        href={href}
-        className="relative text-gray-600 transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all hover:text-gray-900 hover:after:w-full dark:text-gray-300 dark:hover:text-white"
-    >
-        {children}
-    </Link>
-);
-
-const MobileNavLink = ({ href, children }) => (
-    <Link
-        href={href}
-        className="block rounded-lg px-4 py-2 text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
-    >
-        {children}
-    </Link>
-);
 
 const FooterLink = ({ href, children }) => (
     <Link
