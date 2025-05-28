@@ -49,9 +49,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Profile Management
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.add');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/create', [ProfileController::class, 'create'])->name('profile.create');
     Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/{profile}', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/{profile}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile/{profile}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/{profile}', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Profile Item Management
+    Route::post('/profile/{profile}/update-section/{section}', [ProfileController::class, 'updateSection'])->name('profile.update-section');
+    Route::post('/profile/{profile}/update-item/{section}/{index}', [ProfileController::class, 'updateItem'])->name('profile.update-item');
+    Route::delete('/profile/{profile}/delete-item/{section}/{index}', [ProfileController::class, 'deleteItem'])->name('profile.delete-item');
 
     // Job Description Management
     Route::get('/job-descriptions', [JobDescriptionController::class, 'index'])->name('job-descriptions.index');
@@ -96,6 +105,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::post('/mpesa/initiate', [MpesaController::class, 'initiatePayment'])->name('mpesa.initiate');
     Route::get('/mpesa/status', [MpesaController::class, 'checkStatus'])->name('mpesa.status');
+
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/create', [ProfileController::class, 'create'])->name('profile.create');
+    Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
+    Route::get('/profile/{profile}', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/{profile}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/{profile}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/{profile}', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 // M-Pesa Callback URL (no auth required)

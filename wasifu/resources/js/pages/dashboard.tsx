@@ -26,11 +26,18 @@ interface DashboardProps {
         recentDocuments: number;
         profileCompletion: number;
         jobDescriptionsCount: number;
+        weeklyStats: Array<{
+            name: string;
+            resumes: number;
+            coverLetters: number;
+        }>;
     };
     recentDocuments: Array<{
         id: number;
         job_title: string;
         created_at: string;
+        document_type: string;
+        status: 'published' | 'draft' | 'archived';
     }>;
 }
 
@@ -212,9 +219,6 @@ export default function Dashboard({ user, stats, recentDocuments }: DashboardPro
                     </CardContent>
                 </Card>
 
-                {/* Activity Stream */}
-                <ActivityTable recentDocuments={recentDocuments} />
-
                 {/* Document Insights */}
                 <Card className="border-none bg-gradient-to-br from-gray-50 to-white shadow-xl dark:from-gray-800 dark:to-gray-900">
                     <CardHeader className="pb-4">
@@ -231,33 +235,52 @@ export default function Dashboard({ user, stats, recentDocuments }: DashboardPro
                         {/* Chart Container */}
                         <div className="h-[200px] w-full">
                             <ResponsiveContainer width="100%" height="100%">
-                                <LineChart
-                                    data={[
-                                        { name: 'Week 1', value: Math.round(stats.generationsThisMonth * 0.2) },
-                                        { name: 'Week 2', value: Math.round(stats.generationsThisMonth * 0.4) },
-                                        { name: 'Week 3', value: Math.round(stats.generationsThisMonth * 0.7) },
-                                        { name: 'Week 4', value: stats.generationsThisMonth },
-                                    ]}
-                                    margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
-                                >
-                                    <CartesianGrid strokeDasharray="3 3" className="stroke-gray-200 dark:stroke-gray-700" />
-                                    <XAxis dataKey="name" className="text-xs text-gray-500 dark:text-gray-400" tick={{ fill: 'currentColor' }} />
-                                    <YAxis className="text-xs text-gray-500 dark:text-gray-400" tick={{ fill: 'currentColor' }} />
+                                <LineChart data={stats.weeklyStats} margin={{ top: 5, right: 20, left: 5, bottom: 5 }}>
+                                    <CartesianGrid strokeDasharray="3 3" className="stroke-gray-200 dark:stroke-gray-700" vertical={false} />
+                                    <XAxis
+                                        dataKey="name"
+                                        className="text-xs text-gray-500 dark:text-gray-400"
+                                        tick={{ fill: 'currentColor' }}
+                                        axisLine={false}
+                                        tickLine={false}
+                                    />
+                                    <YAxis
+                                        className="text-xs text-gray-500 dark:text-gray-400"
+                                        tick={{ fill: 'currentColor' }}
+                                        axisLine={false}
+                                        tickLine={false}
+                                    />
                                     <Tooltip
                                         contentStyle={{
                                             backgroundColor: 'var(--card)',
                                             border: '1px solid var(--border)',
                                             borderRadius: '0.5rem',
+                                            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                                         }}
-                                        labelStyle={{ color: 'var(--foreground)' }}
+                                        labelStyle={{
+                                            color: 'var(--foreground)',
+                                            fontWeight: 500,
+                                            marginBottom: '0.5rem',
+                                        }}
+                                        formatter={(value: number, name: string) => [`${value} documents`, name]}
                                     />
                                     <Line
                                         type="monotone"
-                                        dataKey="value"
-                                        stroke="var(--primary)"
+                                        dataKey="resumes"
+                                        name="Resumes"
+                                        stroke="var(--chart-1)"
                                         strokeWidth={2}
-                                        dot={{ fill: 'var(--primary)', strokeWidth: 2 }}
-                                        activeDot={{ r: 6, fill: 'var(--primary)' }}
+                                        dot={{ fill: 'var(--chart-1)', strokeWidth: 2, r: 4 }}
+                                        activeDot={{ r: 6, fill: 'var(--chart-1)' }}
+                                    />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="coverLetters"
+                                        name="Cover Letters"
+                                        stroke="var(--chart-2)"
+                                        strokeWidth={2}
+                                        dot={{ fill: 'var(--chart-2)', strokeWidth: 2, r: 4 }}
+                                        activeDot={{ r: 6, fill: 'var(--chart-2)' }}
                                     />
                                 </LineChart>
                             </ResponsiveContainer>
@@ -268,6 +291,8 @@ export default function Dashboard({ user, stats, recentDocuments }: DashboardPro
                         </Button>
                     </CardContent>
                 </Card>
+                {/* Activity Stream */}
+                <ActivityTable recentDocuments={recentDocuments} />
             </div>
         </AppLayout>
     );

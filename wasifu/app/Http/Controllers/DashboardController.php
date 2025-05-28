@@ -20,6 +20,27 @@ class DashboardController extends Controller
             'isPro' => !$user->onFreePlan(),
         ];
 
+        // Get weekly document stats
+        $weeklyStats = [];
+        for ($i = 0; $i < 4; $i++) {
+            $weekStart = $startOfMonth->copy()->addWeeks($i);
+            $weekEnd = $weekStart->copy()->endOfWeek();
+
+            $weeklyStats[] = [
+                'name' => $weekStart->format('d M'),
+                'resumes' => $user->generatedDocuments()
+                    ->where('created_at', '>=', $weekStart)
+                    ->where('created_at', '<=', $weekEnd)
+                    ->whereNotNull('resume_html')
+                    ->count(),
+                'coverLetters' => $user->generatedDocuments()
+                    ->where('created_at', '>=', $weekStart)
+                    ->where('created_at', '<=', $weekEnd)
+                    ->whereNotNull('cover_letter_html')
+                    ->count(),
+            ];
+        }
+
         // Get generations this month
         $generationsThisMonth = $user->generatedDocuments()
             ->where('created_at', '>=', $startOfMonth)
@@ -79,6 +100,7 @@ class DashboardController extends Controller
                 'recentDocuments' => $recentDocuments,
                 'profileCompletion' => $profileCompletion,
                 'jobDescriptionsCount' => $jobDescriptionsCount,
+                'weeklyStats' => $weeklyStats,
             ],
             'recentDocuments' => $recentDocumentsList,
         ]);

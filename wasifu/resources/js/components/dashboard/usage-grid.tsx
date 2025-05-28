@@ -1,4 +1,3 @@
-
 import { Link } from '@inertiajs/react';
 import { ArrowRight, ArrowUp, FileText, LineChart, User } from 'lucide-react';
 import React from 'react';
@@ -21,7 +20,7 @@ export default function UsageGrid({ stats }: UsageGridProps) {
             value: `${stats.profileCompletion}%`,
             progress: stats.profileCompletion,
             icon: <User />,
-            footer: <Link href={route('profile.edit')}>Complete Profile</Link>,
+            footer: <Link href={route('profile.index')}>Complete Profile</Link>,
             color: 'from-indigo-500 to-purple-500',
             type: 'profile',
         },
@@ -132,7 +131,7 @@ export default function UsageGrid({ stats }: UsageGridProps) {
 
                         <div className="mt-auto">
                             <Button asChild variant="ghost" className="group w-full justify-between px-0 hover:bg-transparent">
-                                <Link href="#">
+                                <Link href={stat.footer.props.href}>
                                     <span className="text-gray-600 transition-colors group-hover:text-indigo-600 dark:text-gray-400 dark:group-hover:text-indigo-400">
                                         {stat.footer.props.children}
                                     </span>

@@ -49,3 +49,32 @@ export interface PageProps {
     };
     [key: string]: unknown;
 }
+
+export interface Profile {
+    id: number;
+    user_id: number;
+    full_name: string;
+    professional_summary: string;
+    work_experience: {
+        company: string;
+        position: string;
+        start_date: string;
+        end_date: string;
+        description: string;
+    }[];
+    education: {
+        institution: string;
+        degree: string;
+        field: string;
+        graduation_date: string;
+    }[];
+    skills: string[];
+    certifications: string[];
+    created_at: string;
+    updated_at: string;
+    user?: {
+        id: number;
+        name: string;
+        email: string;
+    };
+}
