@@ -17,8 +17,6 @@ return new class extends Migration
             $table->foreignId('job_description_id')->constrained()->onDelete('cascade');
             $table->text('resume_html');
             $table->text('cover_letter_html');
-            $table->string('resume_pdf_path')->nullable();
-            $table->string('cover_letter_pdf_path')->nullable();
             $table->timestamps();
         });
     }

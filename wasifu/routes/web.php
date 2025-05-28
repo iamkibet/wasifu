@@ -6,6 +6,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JobDescriptionController;
 use App\Http\Controllers\GeneratedDocumentController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MpesaController;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,19 +46,19 @@ Route::get('/contact', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Profile Management
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.add');
+    Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     // Job Description Management
     Route::get('/job-descriptions', [JobDescriptionController::class, 'index'])->name('job-descriptions.index');
     Route::post('/job-descriptions', [JobDescriptionController::class, 'store'])->name('job-descriptions.store');
     Route::get('/job-descriptions/create', [JobDescriptionController::class, 'create'])->name('job-descriptions.create');
     Route::get('/job-descriptions/{jobDescription}', [JobDescriptionController::class, 'show'])->name('job-descriptions.show');
+    Route::get('/job-descriptions/{jobDescription}/edit', [JobDescriptionController::class, 'edit'])->name('job-descriptions.edit');
     Route::put('/job-descriptions/{jobDescription}', [JobDescriptionController::class, 'update'])->name('job-descriptions.update');
     Route::delete('/job-descriptions/{jobDescription}', [JobDescriptionController::class, 'destroy'])->name('job-descriptions.destroy');
 
@@ -64,13 +69,40 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Generated Documents
     Route::get('/documents', [GeneratedDocumentController::class, 'index'])->name('documents.index');
     Route::get('/documents/{document}', [GeneratedDocumentController::class, 'show'])->name('documents.show');
+    Route::get('/documents/{document}/edit', [GeneratedDocumentController::class, 'edit'])->name('documents.edit');
+    Route::put('/documents/{document}', [GeneratedDocumentController::class, 'update'])->name('documents.update');
     Route::get('/documents/{document}/download-resume', [GeneratedDocumentController::class, 'downloadResume'])->name('documents.download.resume');
     Route::get('/documents/{document}/download-cover-letter', [GeneratedDocumentController::class, 'downloadCoverLetter'])->name('documents.download.cover_letter');
 
     // Billing & Subscriptions
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
-    Route::get('/subscribe', [BillingController::class, 'subscribe'])->name('billing.subscribe');
+    Route::get('/billing/subscribe', [BillingController::class, 'subscribe'])->name('billing.subscribe');
+    Route::post('/billing/subscribe', [BillingController::class, 'processSubscription'])->name('billing.process');
+    Route::get('/billing/portal', [BillingController::class, 'portal'])->name('billing.portal');
+    Route::get('/billing/portal/redirect', [BillingController::class, 'billingPortal'])->name('billing.portal.redirect');
+    Route::get('/billing/success', [BillingController::class, 'success'])->name('billing.success');
+    Route::get('/billing/cancel', [BillingController::class, 'cancel'])->name('billing.cancel');
+
+    // Payment Routes
+    Route::post('/stripe/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
+
+    // PayPal Routes
+    Route::post('/paypal/checkout', [PayPalController::class, 'checkout'])->name('paypal.checkout');
+    Route::get('/paypal/success', [PayPalController::class, 'success'])->name('paypal.success');
+    Route::get('/paypal/cancel', [PayPalController::class, 'cancel'])->name('paypal.cancel');
 });
+
+// M-Pesa Routes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/mpesa/initiate', [MpesaController::class, 'initiatePayment'])->name('mpesa.initiate');
+    Route::get('/mpesa/status', [MpesaController::class, 'checkStatus'])->name('mpesa.status');
+});
+
+// M-Pesa Callback URL (no auth required)
+Route::post('/mpesa/callback', [MpesaController::class, 'callback'])->name('mpesa.callback');
+
+// Webhook Routes (no auth required)
+Route::post('/stripe/webhook', [StripeController::class, 'webhook'])->name('stripe.webhook');
 
 /*
 |--------------------------------------------------------------------------
@@ -80,3 +112,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
+
+// Admin routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::post('/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('admin.users.role');
+});

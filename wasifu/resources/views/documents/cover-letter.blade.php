@@ -6,7 +6,7 @@
     <title>Cover Letter - {{ $profile->full_name }}</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Helvetica', 'Arial', sans-serif;
             line-height: 1.6;
             color: #333;
             max-width: 800px;
@@ -15,21 +15,24 @@
         }
 
         .header {
-            text-align: right;
             margin-bottom: 30px;
         }
 
-        .header h1 {
-            font-size: 24px;
-            margin: 0;
-            color: #2d3748;
+        .contact-info {
+            text-align: right;
+            margin-bottom: 20px;
         }
 
         .date {
+            text-align: right;
             margin-bottom: 20px;
         }
 
         .recipient {
+            margin-bottom: 20px;
+        }
+
+        .greeting {
             margin-bottom: 20px;
         }
 
@@ -43,27 +46,32 @@
 
         .signature-name {
             font-weight: bold;
+            margin-top: 10px;
         }
     </style>
 </head>
 
 <body>
     <div class="header">
-        <h1>{{ $profile->full_name }}</h1>
-        <p>{{ $profile->email }}</p>
-        <p>{{ $profile->phone }}</p>
+        <div class="contact-info">
+            {{ $profile->full_name }}<br>
+            {{ $profile->email }}<br>
+            {{ $profile->phone }}
+        </div>
     </div>
 
     <div class="date">
-        {{ \Carbon\Carbon::now()->format('F d, Y') }}
+        {{ now()->format('F d, Y') }}
     </div>
 
     <div class="recipient">
-        <p>
-            Hiring Manager<br>
-            {{ $document->jobDescription->company }}<br>
-            {{ $document->jobDescription->job_title }} Position
-        </p>
+        Hiring Manager<br>
+        {{ $jobDescription->company }}<br>
+        {{ $jobDescription->job_title }} Position
+    </div>
+
+    <div class="greeting">
+        Dear Hiring Manager,
     </div>
 
     <div class="content">
@@ -71,8 +79,8 @@
     </div>
 
     <div class="signature">
-        <p>Sincerely,</p>
-        <p class="signature-name">{{ $profile->full_name }}</p>
+        Sincerely,<br>
+        <div class="signature-name">{{ $profile->full_name }}</div>
     </div>
 </body>
 

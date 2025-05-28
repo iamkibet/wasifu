@@ -10,8 +10,11 @@ use Laravel\Cashier\Billable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, Billable;
+
+    public const ROLE_USER = 'user';
+    public const ROLE_PRO = 'pro';
+    public const ROLE_ADMIN = 'admin';
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -62,9 +66,22 @@ class User extends Authenticatable
         return $this->hasMany(GeneratedDocument::class);
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    public function hasActiveSubscription()
+    {
+        return $this->subscriptions()
+            ->where('stripe_status', 'active')
+            ->whereNull('ends_at')
+            ->exists();
+    }
+
     public function onFreePlan()
     {
-        return !$this->subscribed('pro');
+        return !$this->hasActiveSubscription();
     }
 
     public function documentCountThisMonth()
@@ -73,5 +90,49 @@ class User extends Authenticatable
             ->whereMonth('created_at', now()->month)
             ->whereYear('created_at', now()->year)
             ->count();
+    }
+
+    public function newSubscription($name, $stripePrice)
+    {
+        return new SubscriptionBuilder($this, $name, $stripePrice);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isPro(): bool
+    {
+        return $this->role === self::ROLE_PRO || $this->isAdmin();
+    }
+
+    public function hasProAccess(): bool
+    {
+        return $this->isPro() || $this->subscribed('pro');
+    }
+
+    public function promoteToPro(): void
+    {
+        $this->update(['role' => self::ROLE_PRO]);
+    }
+
+    public function demoteToUser(): void
+    {
+        $this->update(['role' => self::ROLE_USER]);
+    }
+
+    public function promoteToAdmin(): void
+    {
+        $this->update(['role' => self::ROLE_ADMIN]);
+    }
+
+    public function getRoleBadge(): string
+    {
+        return match ($this->role) {
+            self::ROLE_ADMIN => 'Admin',
+            self::ROLE_PRO => 'Pro',
+            default => 'User',
+        };
     }
 }

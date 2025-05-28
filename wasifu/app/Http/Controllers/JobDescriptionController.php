@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\JobDescription;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class JobDescriptionController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */

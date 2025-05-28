@@ -91,7 +91,7 @@ export default function Features() {
                                 {
                                     step: '02',
                                     name: 'Add job description',
-                                    description: 'Paste the job description you're applying for, and our AI will analyze the requirements.',
+                                    description: 'Paste the job description youre applying for, and our AI will analyze the requirements.',
                                 },
                                 {
                                     step: '03',

@@ -11,6 +11,10 @@
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.1",
+        "google/cloud": "^0.288.0",
+        "google/cloud-ai-platform": "*",
+        "google/cloud-core": "*",
+        "iankumu/mpesa": "^2.0",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/cashier": "^15.6",
         "laravel/framework": "^12.0",

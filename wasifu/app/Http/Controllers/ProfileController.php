@@ -29,7 +29,32 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'professional_summary' => 'required|string',
+            'work_experience' => 'required|array',
+            'work_experience.*.company' => 'required|string|max:255',
+            'work_experience.*.position' => 'required|string|max:255',
+            'work_experience.*.start_date' => 'required|date',
+            'work_experience.*.end_date' => 'required|date',
+            'work_experience.*.description' => 'required|string',
+            'education' => 'required|array',
+            'education.*.institution' => 'required|string|max:255',
+            'education.*.degree' => 'required|string|max:255',
+            'education.*.field' => 'required|string|max:255',
+            'education.*.graduation_date' => 'required|date',
+            'skills' => 'required|array',
+            'skills.*' => 'string|max:255',
+            'certifications' => 'nullable|array',
+            'certifications.*' => 'string|max:255',
+        ]);
+
+        $profile = new Profile();
+        $profile->fill($validated);
+        $profile->user_id = $request->user()->id;
+        $profile->save();
+
+        return redirect()->route('profile.add')->with('success', 'Profile created successfully.');
     }
 
     /**
@@ -46,8 +71,26 @@ class ProfileController extends Controller
     public function edit(Request $request)
     {
         $profile = $request->user()->profile ?? new Profile();
-        return Inertia::render('Profile/Edit', [
+
+        // Calculate profile completion
+        $requiredFields = [
+            'full_name',
+            'professional_summary',
+            'work_experience',
+            'education',
+            'skills',
+        ];
+        $completedFields = 0;
+        foreach ($requiredFields as $field) {
+            if (!empty($profile->$field)) {
+                $completedFields++;
+            }
+        }
+        $profileCompletion = ($completedFields / count($requiredFields)) * 100;
+
+        return Inertia::render('Profile/Add', [
             'profile' => $profile,
+            'profileCompletion' => $profileCompletion,
         ]);
     }
 

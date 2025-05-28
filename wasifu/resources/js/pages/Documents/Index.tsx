@@ -1,6 +1,6 @@
-import { Button } from '@/Components/ui/button';
-import { Card } from '@/Components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { User } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 
@@ -52,7 +52,7 @@ export default function Index({ auth, documents }: Props) {
                                                 <Button variant="outline" asChild>
                                                     <Link href={route('documents.show', document.id)}>View</Link>
                                                 </Button>
-                                                {!auth.user.onFreePlan() && (
+                                                {!auth.user.onFreePlan && (
                                                     <>
                                                         <Button variant="outline" asChild>
                                                             <Link href={route('documents.download.resume', document.id)}>Download Resume</Link>

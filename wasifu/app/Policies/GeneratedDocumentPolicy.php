@@ -21,7 +21,7 @@ class GeneratedDocumentPolicy
      */
     public function view(User $user, GeneratedDocument $generatedDocument): bool
     {
-        return false;
+        return $user->id === $generatedDocument->user_id;
     }
 
     /**

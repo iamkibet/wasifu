@@ -6,7 +6,7 @@
     <title>Resume - {{ $profile->full_name }}</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Helvetica', 'Arial', sans-serif;
             line-height: 1.6;
             color: #333;
             max-width: 800px;
@@ -17,24 +17,31 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 20px;
         }
 
         .header h1 {
-            font-size: 24px;
+            color: #2c3e50;
             margin: 0;
-            color: #2d3748;
+            font-size: 28px;
+        }
+
+        .contact-info {
+            margin-top: 10px;
+            color: #666;
         }
 
         .section {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .section-title {
-            font-size: 18px;
-            color: #2d3748;
-            border-bottom: 2px solid #e2e8f0;
-            margin-bottom: 10px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
             padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 18px;
         }
 
         .experience-item,
@@ -42,22 +49,27 @@
             margin-bottom: 15px;
         }
 
-        .experience-item h3,
-        .education-item h3 {
-            font-size: 16px;
-            margin: 0;
-            color: #4a5568;
+        .experience-header,
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
         }
 
-        .experience-item .company,
-        .education-item .institution {
+        .company,
+        .institution {
             font-weight: bold;
+            color: #2c3e50;
         }
 
-        .experience-item .date,
-        .education-item .date {
-            color: #718096;
-            font-size: 14px;
+        .date {
+            color: #666;
+        }
+
+        .title,
+        .degree {
+            font-style: italic;
+            color: #666;
         }
 
         .skills-list {
@@ -67,10 +79,19 @@
         }
 
         .skill {
-            background: #edf2f7;
+            background: #f8f9fa;
             padding: 5px 10px;
             border-radius: 3px;
             font-size: 14px;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -78,6 +99,13 @@
 <body>
     <div class="header">
         <h1>{{ $profile->full_name }}</h1>
+        <div class="contact-info">
+            {{ $profile->email }} | {{ $profile->phone }}
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Professional Summary</h2>
         <p>{{ $profile->professional_summary }}</p>
     </div>
 
@@ -85,16 +113,16 @@
         <h2 class="section-title">Work Experience</h2>
         @foreach ($profile->work_experience as $experience)
             <div class="experience-item">
-                <h3>
-                    <span class="position">{{ $experience['position'] }}</span>
-                    at
+                <div class="experience-header">
                     <span class="company">{{ $experience['company'] }}</span>
-                </h3>
-                <div class="date">
-                    {{ \Carbon\Carbon::parse($experience['start_date'])->format('M Y') }} -
-                    {{ \Carbon\Carbon::parse($experience['end_date'])->format('M Y') }}
+                    <span class="date">{{ $experience['start_date'] }} - {{ $experience['end_date'] }}</span>
                 </div>
-                <p>{{ $experience['description'] }}</p>
+                <div class="title">{{ $experience['title'] }}</div>
+                <ul>
+                    @foreach ($experience['responsibilities'] as $responsibility)
+                        <li>{{ $responsibility }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endforeach
     </div>
@@ -103,15 +131,11 @@
         <h2 class="section-title">Education</h2>
         @foreach ($profile->education as $education)
             <div class="education-item">
-                <h3>
-                    <span class="degree">{{ $education['degree'] }}</span>
-                    in
-                    <span class="field">{{ $education['field'] }}</span>
-                </h3>
-                <div class="institution">{{ $education['institution'] }}</div>
-                <div class="date">
-                    Graduated: {{ \Carbon\Carbon::parse($education['graduation_date'])->format('M Y') }}
+                <div class="education-header">
+                    <span class="institution">{{ $education['institution'] }}</span>
+                    <span class="date">{{ $education['start_date'] }} - {{ $education['end_date'] }}</span>
                 </div>
+                <div class="degree">{{ $education['degree'] }} in {{ $education['field'] }}</div>
             </div>
         @endforeach
     </div>

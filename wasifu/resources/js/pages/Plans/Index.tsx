@@ -1,11 +1,12 @@
-import { Button } from '@/Components/ui/button';
-import { Card } from '@/Components/ui/card';
-import { User } from '@/types';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Head, Link } from '@inertiajs/react';
 
 interface Props {
     auth: {
-        user: User;
+        user: {
+            onFreePlan: boolean;
+        };
     };
 }
 
@@ -50,8 +51,8 @@ export default function Index({ auth }: Props) {
                                 </li>
                             </ul>
 
-                            <Button className="w-full" variant={auth.user.onFreePlan() ? 'outline' : 'default'} disabled={auth.user.onFreePlan()}>
-                                {auth.user.onFreePlan() ? 'Current Plan' : 'Get Started'}
+                            <Button className="w-full" variant={auth.user.onFreePlan ? 'outline' : 'default'} disabled={auth.user.onFreePlan}>
+                                {auth.user.onFreePlan ? 'Current Plan' : 'Get Started'}
                             </Button>
                         </Card>
 
@@ -90,13 +91,22 @@ export default function Index({ auth }: Props) {
                                 </li>
                             </ul>
 
-                            <Button className="w-full" variant={!auth.user.onFreePlan() ? 'outline' : 'default'} asChild={!auth.user.onFreePlan()}>
-                                {!auth.user.onFreePlan() ? (
-                                    <Link href={route('billing.portal')}>Manage Subscription</Link>
-                                ) : (
-                                    <Link href={route('billing.subscribe')}>Upgrade to Pro</Link>
+                            <div className="space-y-4">
+                                <Button className="w-full" variant={!auth.user.onFreePlan ? 'outline' : 'default'} asChild={!auth.user.onFreePlan}>
+                                    {!auth.user.onFreePlan ? 'Current Plan' : <Link href={route('billing.subscribe')}>Upgrade to Pro</Link>}
+                                </Button>
+
+                                {auth.user.onFreePlan && (
+                                    <div className="text-center text-sm text-gray-500">
+                                        <p>Available payment methods:</p>
+                                        <div className="mt-2 flex justify-center space-x-4">
+                                            <img src="/images/stripe.svg" alt="Stripe" className="h-6" />
+                                            <img src="/images/paypal.svg" alt="PayPal" className="h-6" />
+                                            <img src="/images/mpesa.svg" alt="M-Pesa" className="h-6" />
+                                        </div>
+                                    </div>
                                 )}
-                            </Button>
+                            </div>
                         </Card>
                     </div>
                 </div>

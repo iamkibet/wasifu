@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { CreditCard, FileCheck, FileText, Home, LogIn, PenTool, Sparkles, UserPlus } from 'lucide-react';
+import { CreditCard, FileCheck, FileText, Home, LogIn, PenTool, Sparkles, UserPlus, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function HomeLayout({ children, title }) {
@@ -8,7 +8,7 @@ export default function HomeLayout({ children, title }) {
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 0);
+            setIsScrolled(window.scrollY > 20);
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -27,67 +27,116 @@ export default function HomeLayout({ children, title }) {
         <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
             <Head title={title} />
 
-            {/* Floating Navigation Button */}
-            <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`fixed right-6 bottom-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-orange-600 to-orange-500 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:from-orange-500 dark:to-orange-400 ${
-                    isMenuOpen ? 'rotate-45' : ''
+            {/* Modern Navbar */}
+            <nav
+                className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
+                    isScrolled ? 'bg-white shadow-sm dark:bg-gray-900' : 'bg-transparent'
                 }`}
             >
-                <div className="relative">
-                    <Sparkles className="h-8 w-8 text-white" />
-                    <div
-                        className={`absolute inset-0 h-full w-full rounded-full bg-white/20 transition-all duration-300 ${isMenuOpen ? 'scale-150 opacity-0' : 'scale-100 opacity-100'}`}
-                    />
-                </div>
-            </button>
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="flex h-16 items-center justify-between">
+                        {/* Logo */}
+                        <Link href="/" className="flex items-center space-x-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-orange-600 to-orange-500">
+                                <Sparkles className="h-5 w-5 text-white" />
+                            </div>
+                            <span className="text-xl font-bold text-gray-900 dark:text-white">Wasifu</span>
+                        </Link>
 
-            {/* Floating Navigation Menu */}
-            <div
-                className={`fixed right-6 bottom-24 z-40 flex flex-col items-end space-y-4 transition-all duration-300 ${
-                    isMenuOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
-                }`}
-            >
-                {navItems.map((item, index) => (
-                    <Link
-                        key={item.name}
-                        href={item.href}
-                        className={`group flex items-center gap-3 rounded-full bg-white px-6 py-3 shadow-lg transition-all duration-300 hover:shadow-xl dark:bg-gray-800 ${
-                            isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                        }`}
-                        style={{ transitionDelay: `${index * 50}ms` }}
-                    >
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{item.name}</span>
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-orange-600 to-orange-500 text-white transition-transform group-hover:scale-110">
-                            <item.icon className="h-4 w-4" />
+                        {/* Desktop Navigation */}
+                        <div className="hidden lg:flex lg:items-center lg:space-x-8">
+                            {navItems.map((item) => (
+                                <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    className="text-sm font-medium text-gray-700 transition-colors hover:text-orange-600 dark:text-gray-300 dark:hover:text-orange-400"
+                                >
+                                    {item.name}
+                                </Link>
+                            ))}
                         </div>
-                    </Link>
-                ))}
 
-                {/* Auth Buttons */}
-                <div
-                    className={`flex gap-3 transition-all duration-300 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                    style={{ transitionDelay: `${navItems.length * 50}ms` }}
-                >
-                    <Link
-                        href="/login"
-                        className="flex items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-                    >
-                        <LogIn className="h-4 w-4" />
-                        Login
-                    </Link>
-                    <Link
-                        href="/register"
-                        className="flex items-center gap-2 rounded-full bg-orange-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-700"
-                    >
-                        <UserPlus className="h-4 w-4" />
-                        Get Started
-                    </Link>
+                        {/* Desktop Auth Buttons */}
+                        <div className="hidden lg:flex lg:items-center lg:space-x-4">
+                            <Link
+                                href="/login"
+                                className="rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                            >
+                                Login
+                            </Link>
+                            <Link
+                                href="/register"
+                                className="rounded-full bg-orange-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-700"
+                            >
+                                Get Started
+                            </Link>
+                        </div>
+
+                        {/* Mobile Menu Button */}
+                        <button
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 lg:hidden dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                        >
+                            <span className="sr-only">Open main menu</span>
+                            {isMenuOpen ? (
+                                <X className="h-6 w-6" />
+                            ) : (
+                                <div className="h-6 w-6">
+                                    <div className="h-0.5 w-6 bg-current"></div>
+                                    <div className="mt-1.5 h-0.5 w-6 bg-current"></div>
+                                    <div className="mt-1.5 h-0.5 w-6 bg-current"></div>
+                                </div>
+                            )}
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            {/* Main Content */}
-            <main className="animate-fade-in-up">{children}</main>
+                {/* Mobile Menu */}
+                <div
+                    className={`transition-all duration-300 ease-in-out lg:hidden ${
+                        isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 overflow-hidden opacity-0'
+                    }`}
+                >
+                    <div
+                        className={`space-y-1 px-2 pt-2 pb-3 ${
+                            isScrolled ? 'bg-white dark:bg-gray-900' : 'bg-white/95 backdrop-blur-sm dark:bg-gray-900/95'
+                        } shadow-lg`}
+                    >
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.name}
+                                href={item.href}
+                                className="flex items-center space-x-2 rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                <item.icon className="h-5 w-5" />
+                                <span>{item.name}</span>
+                            </Link>
+                        ))}
+                        <div className="mt-4 space-y-2 px-3">
+                            <Link
+                                href="/login"
+                                className="flex w-full items-center justify-center space-x-2 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                <LogIn className="h-4 w-4" />
+                                <span>Login</span>
+                            </Link>
+                            <Link
+                                href="/register"
+                                className="flex w-full items-center justify-center space-x-2 rounded-full bg-orange-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-700"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                <UserPlus className="h-4 w-4" />
+                                <span>Get Started</span>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            {/* Main Content with padding for navbar */}
+            <main className="animate-fade-in-up pt-16">{children}</main>
 
             {/* Modern Gradient Footer */}
             <footer className="mt-24 border-t border-gray-100 bg-gradient-to-b from-white to-gray-50 dark:border-gray-800 dark:from-gray-900 dark:to-gray-800">
