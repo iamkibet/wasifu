@@ -5,17 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Laravel\Cashier\Exceptions\IncompletePayment;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class BillingController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
+        $user = Auth::user();
+
         return Inertia::render('Billing/Index', [
             'auth' => [
                 'user' => [
-                    'name' => $request->user()->name,
-                    'email' => $request->user()->email,
-                    'onFreePlan' => $request->user()->onFreePlan(),
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'onFreePlan' => !$user->subscribed('pro'),
+                    'subscription' => [
+                        'name' => $user->subscribed('pro') ? 'Pro' : 'Free',
+                        'isPro' => $user->subscribed('pro'),
+                    ],
                 ],
             ],
         ]);
@@ -23,7 +31,9 @@ class BillingController extends Controller
 
     public function subscribe(Request $request)
     {
-        if (!$request->user()->onFreePlan()) {
+        $user = $request->user();
+
+        if (!$user->onFreePlan()) {
             return redirect()->route('billing.index')
                 ->with('error', 'You are already subscribed to the Pro plan.');
         }
@@ -31,8 +41,8 @@ class BillingController extends Controller
         return Inertia::render('Billing/Subscribe', [
             'auth' => [
                 'user' => [
-                    'name' => $request->user()->name,
-                    'email' => $request->user()->email,
+                    'name' => $user->name,
+                    'email' => $user->email,
                     'onFreePlan' => true,
                 ],
             ],
@@ -55,30 +65,48 @@ class BillingController extends Controller
         }
     }
 
-    public function success(Request $request)
+    public function success()
     {
-        return redirect()->route('billing.index')
-            ->with('success', 'Your subscription has been activated successfully!');
+        $user = Auth::user();
+
+        // Double check subscription status
+        if (!$user->subscribed('pro')) {
+            Log::warning('User accessed success page without active subscription', [
+                'user_id' => $user->id
+            ]);
+
+            return redirect()->route('billing.index')
+                ->with('error', 'No active subscription found. Please try subscribing again.');
+        }
+
+        return redirect()->route('dashboard')->with('success', 'Welcome to the Pro Plan! You now have unlimited resume and CV generations.');
     }
 
-    public function cancel(Request $request)
+    public function cancel()
     {
         return redirect()->route('billing.index')
-            ->with('error', 'Your subscription was not completed.');
+            ->with('error', 'Your subscription process was cancelled.');
     }
 
     public function portal(Request $request)
     {
-        if ($request->user()->onFreePlan()) {
-            return redirect()->route('plans');
+        $user = $request->user();
+
+        if ($user->onFreePlan()) {
+            return redirect()->route('plans')
+                ->with('error', 'You need to be subscribed to access the billing portal.');
         }
 
         return Inertia::render('Billing/Portal', [
             'auth' => [
                 'user' => [
-                    'name' => $request->user()->name,
-                    'email' => $request->user()->email,
+                    'name' => $user->name,
+                    'email' => $user->email,
                     'onFreePlan' => false,
+                    'subscription' => [
+                        'name' => 'Pro',
+                        'isPro' => true,
+                    ],
                 ],
             ],
         ]);
@@ -86,11 +114,33 @@ class BillingController extends Controller
 
     public function billingPortal(Request $request)
     {
-        return $request->user()->redirectToBillingPortal();
+        try {
+            return $request->user()->redirectToBillingPortal();
+        } catch (\Exception $e) {
+            Log::error('Failed to redirect to billing portal', [
+                'user_id' => $request->user()->id,
+                'error' => $e->getMessage()
+            ]);
+
+            return redirect()->route('billing.index')
+                ->with('error', 'Unable to access billing portal. Please try again later.');
+        }
     }
 
     public function plans()
     {
-        return Inertia::render('Plans/Index');
+        $user = Auth::user();
+
+        return Inertia::render('Plans/Index', [
+            'auth' => [
+                'user' => [
+                    'name' => $user->name,
+                    'subscription' => [
+                        'name' => $user->subscribed('pro') ? 'Pro' : 'Free',
+                        'isPro' => $user->subscribed('pro'),
+                    ],
+                ],
+            ],
+        ]);
     }
 }

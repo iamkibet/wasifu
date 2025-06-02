@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -19,7 +20,17 @@ class StripeController extends Controller
             $session = Session::create([
                 'payment_method_types' => ['card'],
                 'line_items' => [[
-                    'price' => config('services.stripe.price_id'),
+                    'price_data' => [
+                        'currency' => 'usd',
+                        'product_data' => [
+                            'name' => 'Pro Plan',
+                            'description' => 'Unlimited resume and CV generations',
+                        ],
+                        'unit_amount' => 499, // $4.99 in cents
+                        'recurring' => [
+                            'interval' => 'month',
+                        ],
+                    ],
                     'quantity' => 1,
                 ]],
                 'mode' => 'subscription',
@@ -36,18 +47,15 @@ class StripeController extends Controller
                 'session_id' => $session->id
             ]);
 
-            return response()->json([
-                'url' => $session->url
-            ]);
+            // Return an Inertia response with the redirect URL
+            return Inertia::location($session->url);
         } catch (ApiErrorException $e) {
             Log::error('Stripe checkout error', [
                 'user_id' => $request->user()->id,
                 'error' => $e->getMessage()
             ]);
 
-            return response()->json([
-                'error' => 'Failed to create checkout session. Please try again.'
-            ], 500);
+            return back()->with('error', 'Failed to create checkout session. Please try again.');
         }
     }
 
@@ -67,23 +75,46 @@ class StripeController extends Controller
                 'type' => $event->type
             ]);
 
-            if ($event->type === 'checkout.session.completed') {
-                $session = $event->data->object;
-                $user = \App\Models\User::where('email', $session->customer_email)->first();
+            switch ($event->type) {
+                case 'checkout.session.completed':
+                    $session = $event->data->object;
+                    $user = User::where('email', $session->customer_email)->first();
 
-                if ($user) {
-                    $user->newSubscription('pro', config('services.stripe.price_id'))
-                        ->create($session->subscription);
+                    if ($user) {
+                        // Create the subscription
+                        $user->newSubscription('pro', config('services.stripe.price_id'))
+                            ->create($session->subscription);
 
-                    Log::info('Subscription created', [
-                        'user_id' => $user->id,
-                        'subscription_id' => $session->subscription
-                    ]);
-                } else {
-                    Log::error('User not found for subscription', [
-                        'email' => $session->customer_email
-                    ]);
-                }
+                        // Update user role to pro
+                        $user->promoteToPro();
+
+                        Log::info('Subscription created and user promoted to pro', [
+                            'user_id' => $user->id,
+                            'subscription_id' => $session->subscription
+                        ]);
+                    } else {
+                        Log::error('User not found for subscription', [
+                            'email' => $session->customer_email
+                        ]);
+                    }
+                    break;
+
+                case 'customer.subscription.deleted':
+                    $subscription = $event->data->object;
+                    $user = User::where('stripe_id', $subscription->customer)->first();
+
+                    if ($user) {
+                        // Only demote if they're not an admin
+                        if (!$user->isAdmin()) {
+                            $user->demoteToUser();
+                        }
+
+                        Log::info('Subscription cancelled and user demoted', [
+                            'user_id' => $user->id,
+                            'subscription_id' => $subscription->id
+                        ]);
+                    }
+                    break;
             }
 
             return response()->json(['status' => 'success']);

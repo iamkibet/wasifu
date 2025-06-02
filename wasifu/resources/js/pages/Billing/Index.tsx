@@ -1,8 +1,11 @@
+import MpesaPayment from '@/components/MpesaPayment';
 import StripePayment from '@/components/StripePayment';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
+import { useState } from 'react';
 
 interface Props {
     auth: {
@@ -14,10 +17,11 @@ interface Props {
 }
 
 export default function Billing({ auth }: Props) {
+    const [paymentMethod, setPaymentMethod] = useState('stripe');
     const plans = {
         pro: {
             name: 'Pro Plan',
-            price: 999, // $9.99
+            price: 4.99, // $4.99
             features: ['Unlimited AI generations', 'Priority support', 'Advanced features', 'Custom styles'],
         },
     };
@@ -62,12 +66,35 @@ export default function Billing({ auth }: Props) {
                                     </ul>
 
                                     {auth.user.onFreePlan && (
-                                        <StripePayment
-                                            amount={plans.pro.price}
-                                            onSuccess={() => {
-                                                window.location.reload();
-                                            }}
-                                        />
+                                        <div className="space-y-4">
+                                            <Select value={paymentMethod} onValueChange={setPaymentMethod}>
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue placeholder="Select payment method" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="stripe">Credit Card (Stripe)</SelectItem>
+                                                    <SelectItem value="mpesa">M-Pesa</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+
+                                            {paymentMethod === 'stripe' && (
+                                                <StripePayment
+                                                    amount={plans.pro.price}
+                                                    onSuccess={() => {
+                                                        window.location.reload();
+                                                    }}
+                                                />
+                                            )}
+
+                                            {paymentMethod === 'mpesa' && (
+                                                <MpesaPayment
+                                                    amount={plans.pro.price}
+                                                    onSuccess={() => {
+                                                        window.location.reload();
+                                                    }}
+                                                />
+                                            )}
+                                        </div>
                                     )}
                                 </div>
                             </CardContent>

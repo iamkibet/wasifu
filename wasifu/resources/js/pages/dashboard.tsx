@@ -7,10 +7,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Com
 import AppLayout from '@/layouts/app-layout';
 
 import { type BreadcrumbItem } from '@/types';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { Download, Edit, FileText, Plus, Share2 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { toast } from 'sonner';
+
+interface PageProps {
+    flash?: {
+        success?: string;
+        error?: string;
+    };
+    [key: string]: unknown;
+}
 
 interface DashboardProps {
     user: {
@@ -50,6 +59,16 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Dashboard({ user, stats, recentDocuments }: DashboardProps) {
     const [isLoading, setIsLoading] = useState(true);
+    const { flash } = usePage<PageProps>().props;
+
+    useEffect(() => {
+        if (flash?.success) {
+            toast.success(flash.success);
+        }
+        if (flash?.error) {
+            toast.error(flash.error);
+        }
+    }, [flash]);
 
     if (isLoading) {
         return <LoaderSequence onComplete={() => setIsLoading(false)} />;
@@ -59,51 +78,43 @@ export default function Dashboard({ user, stats, recentDocuments }: DashboardPro
         <AppLayout breadcrumbs={breadcrumbs} profileCompletion={stats.profileCompletion}>
             {/* Main Content Grid */}
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <Card className="overflow-hidden border-0 bg-gradient-to-br from-indigo-900 via-blue-900 to-purple-900 shadow-2xl">
-                    <CardContent className="relative p-6">
-                        <div className="relative z-10 flex flex-col items-start justify-between md:flex-row md:items-center">
-                            <div className="flex items-start space-x-4">
-                                <div className="h-16 w-16 rounded-xl border-2 border-dashed bg-gray-200" />
+                <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 shadow-2xl">
+                    {/* Decorative elements */}
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent" />
+                    <div className="absolute bottom-0 left-0 h-48 w-48 -translate-x-1/3 translate-y-1/3 rounded-full bg-amber-500/10 blur-3xl" />
 
-                                <div className="space-y-1">
-                                    <h2 className="text-2xl font-bold text-white md:text-3xl">
+                    <CardContent className="relative z-10 p-6">
+                        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
+                            {/* User info with avatar */}
+                            <div className="flex items-center space-x-5">
+                                <div className="relative">
+                                    <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600 to-orange-600 shadow-lg">
+                                        <div className="h-16 w-16 rounded-xl border-2 border-dashed bg-gray-200" />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h2 className="text-2xl font-bold text-white">
                                         Welcome back, <span className="text-amber-300">{user.name}</span>
                                     </h2>
-
-                                    <div className="flex items-center">
-                                        <span
-                                            className={`rounded-md px-2 py-1 text-xs font-semibold ${
-                                                user.subscription.isPro
-                                                    ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white'
-                                                    : 'bg-gray-800 text-gray-300'
-                                            }`}
-                                        >
-                                            {user.subscription.isPro ? 'PRO PLAN' : 'FREE PLAN'}
-                                        </span>
-
-                                        <div className="ml-3 flex items-center">
-                                            <div className="mr-2 h-2 w-2 animate-pulse rounded-full bg-emerald-500"></div>
-                                            <span className="text-sm text-gray-300">Active now</span>
-                                        </div>
-                                    </div>
+                                    <p className="mt-1 text-gray-300">
+                                        {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                                    </p>
                                 </div>
                             </div>
 
-                            {/* Profile completion with progress bar */}
-                            <div className="mt-4 min-w-[200px] rounded-xl border border-white/10 bg-white/10 p-4 backdrop-blur-lg md:mt-0">
-                                <div className="mb-1 flex items-center justify-between">
-                                    <span className="text-xs font-semibold tracking-wider text-gray-300 uppercase">Profile Strength</span>
-                                    <span className="text-sm font-bold text-amber-400">{stats.profileCompletion}%</span>
+                            {/* Plan status with progress */}
+                            <div className="flex flex-col items-end">
+                                <div
+                                    className={`rounded-full px-4 py-2 text-sm font-semibold ${
+                                        user.subscription.isPro
+                                            ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-lg'
+                                            : 'border border-amber-500/30 bg-gray-800/50 text-amber-300 backdrop-blur-md'
+                                    }`}
+                                >
+                                    {user.subscription.isPro ? 'PRO PLAN' : 'FREE PLAN'}
                                 </div>
-
-                                <div className="h-2 overflow-hidden rounded-full bg-gray-800">
-                                    <div
-                                        className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-700 ease-out"
-                                        style={{ width: `${stats.profileCompletion}%` }}
-                                    ></div>
-                                </div>
-
-                                <p className="mt-2 text-right text-xs text-gray-400">Complete your profile</p>
+                                {user.subscription.isPro && <p className="mt-2 text-sm text-gray-300">Unlimited generations available</p>}
                             </div>
                         </div>
                     </CardContent>
@@ -228,7 +239,7 @@ export default function Dashboard({ user, stats, recentDocuments }: DashboardPro
                         <div className="flex items-center justify-between">
                             <span className="text-sm text-gray-500">Monthly Generations</span>
                             <span className="font-medium text-indigo-600">
-                                {stats.generationsThisMonth}/{stats.maxGenerations}
+                                {stats.generationsThisMonth}/{user.subscription.isPro ? '∞' : stats.maxGenerations}
                             </span>
                         </div>
 
@@ -286,9 +297,11 @@ export default function Dashboard({ user, stats, recentDocuments }: DashboardPro
                             </ResponsiveContainer>
                         </div>
 
-                        <Button className="w-full" variant="default">
-                            Upgrade Plan
-                        </Button>
+                        {!user.subscription.isPro && (
+                            <Button className="w-full" variant="default" asChild>
+                                <Link href={route('billing.index')}>Upgrade to Pro</Link>
+                            </Button>
+                        )}
                     </CardContent>
                 </Card>
                 {/* Activity Stream */}
