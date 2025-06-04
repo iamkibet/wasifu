@@ -188,3 +188,71 @@
 .animation-delay-0 { animation-delay: 0s; }
 .animation-delay-2000 { animation-delay: 2s; }
 .animation-delay-3000 { animation-delay: 3s; }
+
+.industry-gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(100, 116, 139, 0.15);
+        }
+        .stat-card {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(100, 116, 139, 0.1);
+        }
+        
+        .decor-circle {
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+        }
+        .btn-gradient {
+            background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.25);
+        }
+        .btn-gradient:hover {
+            background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.35);
+            transform: translateY(-2px);
+        }
+        .industry-icon {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .industry-card:hover .industry-icon {
+            transform: scale(1.1) translateY(-5px);
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+        .industry-visual {
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .industry-card:hover .industry-visual {
+            transform: scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        }
+        .tag-pill {
+            background: rgba(96, 165, 250, 0.1);
+            transition: all 0.3s ease;
+        }
+        .tag-pill:hover {
+            background: rgba(96, 165, 250, 0.2);
+            transform: translateY(-2px);
+        }
+        .animate-delay-100 {
+            animation-delay: 0.1s;
+        }
+        .animate-delay-200 {
+            animation-delay: 0.2s;
+        }
+        .animate-delay-300 {
+            animation-delay: 0.3s;
+        }
+        .animate-delay-400 {
+            animation-delay: 0.4s;
+        }
+        .section-title-gradient {
+            background: linear-gradient(90deg, #93c5fd 0%, #60a5fa 25%, #3b82f6 50%, #60a5fa 75%, #93c5fd 100%);
+            background-size: 200% auto;
+            animation: gradientShift 8s linear infinite;
+        }

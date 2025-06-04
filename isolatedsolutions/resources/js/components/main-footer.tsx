@@ -2,6 +2,7 @@ import MaxWidthWrapper from '@/ui/MaxWidthWrapper';
 import classnames from 'classnames';
 import { useState } from 'react';
 import BorderHover from './Hover/BorderHover';
+import AppLogo from './app-logo';
 
 // ==================== Shared Components ====================
 interface FooterSection {
@@ -240,9 +241,9 @@ const Footer = () => {
                     <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
                         <div className="lg:col-span-4">
                             <div className="mb-6 flex items-center">
-                                <div className="h-16 w-16 rounded-xl border-2 border-dashed bg-gray-200" />
+                                
                                 <div className="ml-4">
-                                    <h2 className="text-2xl font-bold text-white">IsolatedSolutions</h2>
+                                    <AppLogo />
                                     <p className="mt-1 text-gray-500">Digital Innovation Studio</p>
                                 </div>
                             </div>

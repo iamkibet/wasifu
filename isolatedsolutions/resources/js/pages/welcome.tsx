@@ -281,52 +281,417 @@ export default function Welcome() {
                 </MaxWidthWrapper>
             </section>
 
-            {/* Technologies Section */}
-            <section ref={techRef} className="bg-white py-20 dark:bg-gray-900">
-                <div className="mx-auto max-w-7xl px-6">
-                    <h2 className="mb-16 text-center text-4xl font-bold">Futuristic Technologies</h2>
-                    <div className="grid gap-8 md:grid-cols-3">
-                        <div className="tech-card group rounded-2xl bg-gray-50 p-8 transition-all hover:-translate-y-2 hover:shadow-xl dark:bg-gray-800">
-                            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-blue-500 text-white">
-                                <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-                                    />
-                                </svg>
+            <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 py-24">
+                {/* Decorative elements */}
+                <div className="absolute inset-0">
+                    <div className="absolute -top-20 -right-20 h-96 w-96 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 opacity-30 blur-3xl"></div>
+                    <div className="absolute bottom-0 left-0 h-72 w-full bg-gradient-to-t from-white via-white/50 to-transparent"></div>
+                    <div className="absolute top-1/3 left-10 h-40 w-0.5 bg-gradient-to-b from-red-400 to-purple-500"></div>
+                </div>
+
+                <div className="relative mx-auto max-w-7xl px-6">
+                    <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
+                        {/* Text content - rich for SEO */}
+                        <div>
+                            <div className="mb-6 inline-flex items-center rounded-full bg-blue-50 px-4 py-1.5 font-medium text-blue-700">
+                                <span className="mr-2 h-2 w-2 rounded-full bg-blue-500"></span>
+                                Pioneering Digital Excellence
                             </div>
-                            <h3 className="mb-4 text-xl font-semibold">Blockchain Development</h3>
-                            <p className="text-gray-600 dark:text-gray-300">Secure and transparent decentralized solutions.</p>
+
+                            <h2 className="mb-6 text-4xl leading-tight font-bold text-gray-900 md:text-5xl">
+                                Crafting Digital Solutions That{' '}
+                                <span className="bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
+                                    Transform Businesses
+                                </span>
+                            </h2>
+
+                            <div className="prose prose-lg mb-8 max-w-none text-gray-700">
+                                <p className="mb-4">
+                                    Founded in 2015,{' '}
+                                    <a href="/">
+                                        <strong>Isolated Solutions Limited</strong>
+                                    </a>{' '}
+                                    has established itself as a premier digital innovation studio dedicated to transforming business visions into
+                                    tangible digital success stories. With our headquarters in Nairobi, Kenya and a global team of 15+ experts, we've
+                                    delivered over 300 successful projects to clients ranging from ambitious startups to big enterprises.
+                                </p>
+
+                                <p className="mb-4">
+                                    Our multidisciplinary team combines deep technical expertise in modern web technologies like React, Next.js,
+                                    Laravel and Node.js with award-winning design capabilities. We specialize in creating performant, accessible, and
+                                    visually stunning digital experiences that drive measurable business results. Our human-centered approach ensures
+                                    we solve real problems rather than just writing code.
+                                </p>
+
+                                <p className="mb-4">
+                                    What truly sets us apart is our commitment to partnership. We don't just build what you ask for - we invest time
+                                    to understand your business objectives, market challenges, and customer needs to deliver solutions that create
+                                    sustainable competitive advantages. Our agile methodology ensures transparency and flexibility throughout the
+                                    engagement, with continuous feedback loops that keep you in control.
+                                </p>
+
+                                <p className="mb-4">
+                                    Over the past 8 years, we've helped clients achieve remarkable outcomes: 150% average increase in user engagement,
+                                    40% reduction in operational costs, and 300% ROI on digital investments. Our work has been recognized by industry
+                                    leaders cementing our reputation as a trusted digital transformation partner.
+                                </p>
+
+                                <p>
+                                    As technology evolves, so do we. Our dedicated R&D team continuously explores emerging technologies like AI/ML,
+                                    blockchain, and AR/VR to ensure our clients always benefit from cutting-edge solutions. We're not just developers
+                                    - we're strategic partners invested in your long-term success.
+                                </p>
+                            </div>
+
+                            {/* Creative floating button */}
+                            <div className="group relative inline-block">
+                                <Link
+                                    href="/about"
+                                    className="relative z-10 inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-500/30 transition-all duration-500"
+                                >
+                                    Discover Our Journey
+                                    <svg
+                                        className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                    </svg>
+                                </Link>
+                                <div className="absolute -inset-2 -z-10 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 blur-md transition-all duration-500 group-hover:opacity-70"></div>
+                            </div>
                         </div>
-                        <div className="tech-card group rounded-2xl bg-gray-50 p-8 transition-all hover:-translate-y-2 hover:shadow-xl dark:bg-gray-800">
-                            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-purple-500 text-white">
-                                <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
-                                    />
-                                </svg>
+
+                        {/* Visual elements */}
+                        <div className="relative">
+                            {/* Team photo grid */}
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="relative aspect-square overflow-hidden rounded-2xl shadow-xl">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600"></div>
+                                    <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                                        <h3 className="font-bold text-white">Our Team</h3>
+                                        <p className="text-sm text-blue-200">15+ specialists collaborating globally</p>
+                                    </div>
+                                </div>
+
+                                <div className="relative aspect-square overflow-hidden rounded-2xl shadow-xl">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-500"></div>
+                                    <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                                        <h3 className="font-bold text-white">Our Process</h3>
+                                        <p className="text-sm text-amber-200">Agile, transparent, results-driven</p>
+                                    </div>
+                                </div>
+
+                                <div className="relative col-span-2 aspect-[16/7] overflow-hidden rounded-2xl shadow-xl">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-600"></div>
+                                    <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                                        <h3 className="font-bold text-white">Our Impact</h3>
+                                        <p className="text-sm text-emerald-200">300+ successful client projects delivered</p>
+                                    </div>
+                                </div>
                             </div>
-                            <h3 className="mb-4 text-xl font-semibold">IoT Solutions</h3>
-                            <p className="text-gray-600 dark:text-gray-300">Connect and automate your physical devices.</p>
+
+                            {/* Achievement badges floating */}
+                            <div className="absolute -top-6 -right-6 hidden rotate-6 transform rounded-xl border border-gray-200 bg-white p-4 shadow-lg md:block">
+                                <div className="text-3xl font-bold text-gray-900">8+</div>
+                                <div className="text-sm text-gray-600">Years Experience</div>
+                            </div>
+
+                            <div className="absolute -bottom-18 -left-6 -rotate-3 transform rounded-xl border border-gray-200 bg-white p-4 shadow-lg">
+                                <div className="text-3xl font-bold text-gray-900">150%</div>
+                                <div className="text-sm text-gray-600">Avg. Engagement Increase</div>
+                            </div>
                         </div>
-                        <div className="tech-card group rounded-2xl bg-gray-50 p-8 transition-all hover:-translate-y-2 hover:shadow-xl dark:bg-gray-800">
-                            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-green-500 text-white">
-                                <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                    />
-                                </svg>
+                    </div>
+
+                    {/* Client logos */}
+                    {/* <div className="mt-24">
+                        <h3 className="mb-8 text-center font-medium text-gray-500">Trusted by innovative companies worldwide</h3>
+                        <div className="grid grid-cols-2 gap-8 md:grid-cols-6">
+                            {[...Array(6)].map((_, i) => (
+                                <div
+                                    key={i}
+                                    className="flex h-20 items-center justify-center rounded-xl border border-gray-100 bg-white p-4 shadow-sm"
+                                >
+                                    <div className="h-8 w-16 rounded-xl border-2 border-dashed bg-gray-200" /> 
+                                </div>
+                            ))}
+                        </div>
+                    </div> */}
+                </div>
+            </section>
+            <section className="relative overflow-hidden px-4 py-12 sm:px-6 lg:px-8">
+                <div className="relative z-10 mx-auto max-w-7xl">
+                    <div className="mb-16 text-center lg:mb-24">
+                        <span className="mb-6 inline-block rounded-full bg-red-50 px-5 py-2 text-sm font-bold tracking-wider text-black">
+                            INDUSTRY EXPERTISE
+                        </span>
+                        <h1 className="animate-fade-in mb-6 text-4xl font-extrabold md:text-5xl lg:text-6xl">
+                            <span className="bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
+                                {' '}
+                                <span className="text-black">Industries</span> We Transform
+                            </span>
+                        </h1>
+                        <p className="mx-auto max-w-3xl text-lg leading-relaxed md:text-xl">
+                            We deliver specialized digital solutions that drive innovation and growth across key sectors. With deep domain expertise,
+                            we help businesses optimize operations, enhance customer experiences, and achieve measurable results through cutting-edge
+                            technology.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-16">
+                        <div className="animate-delay-200 overflow-hidden rounded-3xl bg-gray-50">
+                            <div className="flex flex-col bg-gray-50 lg:flex-row">
+                                <div className="p-8 md:p-12 lg:w-2/5">
+                                    <h2 className="mb-6 text-3xl font-bold md:text-4xl">eCommerce Solutions</h2>
+                                    <p className="mb-8 leading-relaxed">
+                                        We build high-performance eCommerce platforms that drive conversions and customer loyalty. Our solutions
+                                        include personalized shopping experiences, AI-driven recommendations, seamless payment integrations, and
+                                        scalable inventory systems.
+                                    </p>
+
+                                    <div className="mb-8 flex flex-wrap gap-3">
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Omnichannel Retail</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Marketplace Platforms</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Headless Commerce</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Payment Gateways</span>
+                                    </div>
+
+                                    <div className="mb-8 grid grid-cols-2 gap-5">
+                                        <div className="rounded-xl border-1 bg-gray-100 p-5 transition-all duration-300">
+                                            <div className="mb-2 text-3xl font-bold text-sky-400">45%</div>
+                                            <div className="text-sm">Avg. Conversion Increase</div>
+                                        </div>
+                                        <div className="rounded-xl border-1 bg-gray-100 p-5 transition-all duration-300">
+                                            <div className="mb-2 text-3xl font-bold text-sky-400">30%</div>
+                                            <div className="text-sm">Higher Order Value</div>
+                                        </div>
+                                    </div>
+
+                                    <a
+                                        href="#"
+                                        className="btn-gradient inline-flex items-center rounded-full px-8 py-4 font-semibold text-white transition-all duration-300"
+                                    >
+                                        Explore eCommerce Solutions
+                                        <i className="fas fa-arrow-right ml-3 transition-transform duration-300 group-hover:translate-x-1"></i>
+                                    </a>
+                                </div>
+
+                                <div className="flex flex-col lg:w-3/5">
+                                    <div className="relative flex h-80 items-end bg-gray-100 p-8 transition-all duration-500 md:h-96">
+                                        <div className="absolute inset-0 bg-[url('/images/eebabyshop.png')] bg-cover bg-center opacity-80"></div>
+                                        <div className="visual-overlay absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/50 to-transparent"></div>
+                                        <div className="relative z-10">
+                                            <h3 className="mb-3 text-2xl font-bold text-white drop-shadow-lg">Success Story: E & E Babyshop</h3>
+                                            <p className="text-lg font-medium text-gray-100 drop-shadow-md">
+                                                Increased mobile conversions by 62% with our progressive web app solution, resulting in $4.2M
+                                                additional annual revenue.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 bg-gradient-to-br from-blue-500 to-purple-600">
+                                        <div className="border-r border-gray-700 p-6">
+                                            <div className="mb-2 text-2xl font-bold text-white">99.9%</div>
+                                            <p className="text-sm text-white">Platform Uptime</p>
+                                        </div>
+                                        <div className="p-6">
+                                            <div className="mb-2 text-2xl font-bold text-white">22%</div>
+                                            <p className="text-sm text-white">Reduced Cart Abandonment</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <h3 className="mb-4 text-xl font-semibold">AI & Machine Learning</h3>
-                            <p className="text-gray-600 dark:text-gray-300">Intelligent automation and predictive analytics.</p>
+                        </div>
+
+                        <div className="animate-fade-in animate-delay-300 overflow-hidden rounded-3xl bg-gray-50">
+                            <div className="flex flex-col lg:flex-row">
+                                <div className="flex flex-col bg-gray-100 lg:order-1 lg:w-3/5">
+                                    <div className="relative flex h-80 items-end bg-gray-50 p-8 transition-all duration-500 md:h-96">
+                                        <div className="absolute inset-0 bg-[url('/images/university.png')] bg-cover bg-center opacity-80"></div>
+                                        <div className="visual-overlay absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/50 to-transparent"></div>
+                                        <div className="relative z-10">
+                                            <h3 className="mb-3 text-2xl font-bold text-white drop-shadow-lg">Case Study: University Platform</h3>
+                                            <p className="text-lg font-medium text-gray-100 drop-shadow-md">
+                                                Created a unified learning platform serving 350,000+ students with 92% satisfaction rate and 40%
+                                                reduction in administrative costs.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 bg-gradient-to-br from-amber-500 to-orange-500">
+                                        <div className="border-r border-cyan-500 p-6">
+                                            <div className="mb-2 text-2xl font-bold text-white">75%</div>
+                                            <p className="text-sm text-white">Student Engagement</p>
+                                        </div>
+                                        <div className="p-6">
+                                            <div className="mb-2 text-2xl font-bold text-white">2M+</div>
+                                            <p className="text-sm text-white">Students Served</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="order-1 bg-gray-50 p-8 md:p-12 lg:order-2 lg:w-2/5">
+                                    <h2 className="mb-6 text-3xl font-bold md:text-4xl">EdTech Innovation</h2>
+                                    <p className="mb-8 leading-relaxed">
+                                        We create transformative educational technologies that enhance learning outcomes. Our platforms include
+                                        adaptive learning systems, virtual classNamerooms, gamified experiences, and comprehensive LMS solutions.
+                                    </p>
+
+                                    <div className="mb-8 flex flex-wrap gap-3">
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Learning Management</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Virtual classNamerooms</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Educational Apps</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Gamification</span>
+                                    </div>
+
+                                    <div className="mb-8 grid grid-cols-2 gap-5">
+                                        <div className="rounded-xl border-1 bg-gray-100 p-5 transition-all duration-300">
+                                            <div className="mb-2 text-3xl font-bold text-sky-400">60%</div>
+                                            <div className="text-sm">Knowledge Retention</div>
+                                        </div>
+                                        <div className="rounded-xl border-1 bg-gray-100 p-5 transition-all duration-300">
+                                            <div className="mb-2 text-3xl font-bold text-sky-400">40%</div>
+                                            <div className="text-sm">Admin Workload Reduction</div>
+                                        </div>
+                                    </div>
+
+                                    <a
+                                        href="#"
+                                        className="btn-gradient inline-flex items-center rounded-full px-8 py-4 font-semibold text-white transition-all duration-300"
+                                    >
+                                        Discover EdTech Solutions
+                                        <i className="fas fa-arrow-right ml-3 transition-transform duration-300 group-hover:translate-x-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="animate-fade-in animate-delay-200 overflow-hidden rounded-3xl bg-gray-50">
+                            <div className="flex flex-col lg:flex-row">
+                                <div className="p-8 md:p-12 lg:w-2/5">
+                                    <h2 className="mb-6 text-3xl font-bold md:text-4xl">Healthcare Technology</h2>
+                                    <p className="mb-8 leading-relaxed">
+                                        We develop secure, compliant healthcare solutions that improve patient outcomes. Our expertise includes
+                                        telemedicine platforms, EHR systems, patient portals, and healthcare analytics.
+                                    </p>
+
+                                    <div className="mb-8 flex flex-wrap gap-3">
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Telemedicine</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">EHR Systems</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Healthcare Analytics</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Patient Portals</span>
+                                    </div>
+
+                                    <div className="mb-8 grid grid-cols-2 gap-5">
+                                        <div className="rounded-xl border-1 bg-gray-100 p-5 transition-all duration-300">
+                                            <div className="mb-2 text-3xl font-bold text-sky-400">35%</div>
+                                            <div className="text-sm">Admin Cost Reduction</div>
+                                        </div>
+                                        <div className="rounded-xl border-1 bg-gray-100 p-5 transition-all duration-300">
+                                            <div className="mb-2 text-xl font-bold text-sky-400">HIPAA</div>
+                                            <div className="text-sm">Compliant Solutions</div>
+                                        </div>
+                                    </div>
+
+                                    <a
+                                        href="#"
+                                        className="btn-gradient inline-flex items-center rounded-full px-8 py-4 font-semibold text-white transition-all duration-300"
+                                    >
+                                        Explore Healthcare Solutions
+                                        <i className="fas fa-arrow-right ml-3 transition-transform duration-300 group-hover:translate-x-1"></i>
+                                    </a>
+                                </div>
+
+                                <div className="flex flex-col lg:w-3/5">
+                                    <div className="relative flex h-80 items-end bg-gray-100 p-8 transition-all duration-500 md:h-96">
+                                        <div className="absolute inset-0 bg-[url('/images/healthcare.png')] bg-cover bg-center opacity-80"></div>
+                                        <div className="visual-overlay absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/50 to-transparent"></div>
+                                        <div className="relative z-10">
+                                            <h3 className="mb-3 text-2xl font-bold text-white drop-shadow-lg">Implementation: Hospital Network</h3>
+                                            <p className="text-lg font-medium text-gray-100 drop-shadow-md">
+                                                Developed a unified patient portal for 12 hospitals, reducing appointment no-shows by 28% and
+                                                improving patient satisfaction scores by 45%.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 bg-gradient-to-t from-emerald-500 to-teal-600">
+                                        <div className="border-r border-cyan-500 p-6">
+                                            <div className="mb-2 text-2xl font-bold text-white">99.99%</div>
+                                            <p className="text-sm text-white">Security Compliance</p>
+                                        </div>
+                                        <div className="p-6">
+                                            <div className="mb-2 text-2xl font-bold text-white">50%</div>
+                                            <p className="text-sm text-white">Faster Patient Onboarding</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="animate-fade-in animate-delay-300 overflow-hidden rounded-3xl bg-gray-50">
+                            <div className="flex flex-col lg:flex-row">
+                                <div className="order-2 flex flex-col lg:order-1 lg:w-3/5">
+                                    <div className="relative flex h-80 items-end bg-gray-100 p-8 transition-all duration-500 md:h-96">
+                                        <div className="absolute inset-0 bg-[url('/images/sokomagari.png')] bg-cover bg-center opacity-80"></div>
+                                        <div className="visual-overlay absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/50 to-transparent"></div>
+                                        <div className="relative z-10">
+                                            <h3 className="mb-3 text-2xl font-bold text-white drop-shadow-lg">
+                                                Enterprise Solution: Logistics Company
+                                            </h3>
+                                            <p className="text-lg font-medium text-gray-100 drop-shadow-md">
+                                                Built a custom logistics platform that reduced shipment processing time by 65% and saved $1.8M
+                                                annually in operational costs.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 bg-gradient-to-r from-rose-600 to-pink-500">
+                                        <div className="border-r border-white/50 p-6">
+                                            <div className="mb-2 text-2xl font-bold text-white">300+</div>
+                                            <p className="text-sm text-white">Solutions Delivered</p>
+                                        </div>
+                                        <div className="p-6">
+                                            <div className="mb-2 text-2xl font-bold text-white">150%</div>
+                                            <p className="text-sm text-white">Average ROI</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="order-1 p-8 md:p-12 lg:order-2 lg:w-2/5">
+                                    <h2 className="mb-6 text-3xl font-bold md:text-4xl">Custom Software Solutions</h2>
+                                    <p className="mb-8 leading-relaxed">
+                                        We create bespoke software tailored to your unique business challenges. Our services include enterprise
+                                        applications, workflow automation, digital transformation, and proprietary systems.
+                                    </p>
+
+                                    <div className="mb-8 flex flex-wrap gap-3">
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Enterprise Software</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Workflow Automation</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Digital Transformation</span>
+                                        <span className="tag-pill rounded-full px-4 py-2 text-sm">Proprietary Systems</span>
+                                    </div>
+
+                                    <div className="mb-8 grid grid-cols-2 gap-5">
+                                        <div className="rounded-xl border-1 bg-gray-100 p-5 transition-all duration-300">
+                                            <div className="mb-2 text-3xl font-bold text-sky-400">40%</div>
+                                            <div className="text-sm">Efficiency Gain</div>
+                                        </div>
+                                        <div className="rounded-xl border-1 bg-gray-100 p-5 transition-all duration-300">
+                                            <div className="mb-2 text-3xl font-bold text-sky-400">8+</div>
+                                            <div className="text-sm">Years Experience</div>
+                                        </div>
+                                    </div>
+
+                                    <a
+                                        href="#"
+                                        className="btn-gradient inline-flex items-center rounded-full px-8 py-4 font-semibold text-white transition-all duration-300"
+                                    >
+                                        Discuss Your Project
+                                        <i className="fas fa-arrow-right ml-3 transition-transform duration-300 group-hover:translate-x-1"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -334,7 +699,7 @@ export default function Welcome() {
 
             <section
                 ref={ctaRef}
-                className="relative overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-950 to-black py-32 min-h-screen"
+                className="relative min-h-screen overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-950 to-black py-32"
             >
                 {/* Particle Background */}
                 <div className="absolute inset-0">
@@ -401,7 +766,7 @@ export default function Welcome() {
                             href="/products"
                             className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl border border-gray-700 px-8 py-4 font-medium text-white transition-all duration-500 hover:border-gray-600"
                         >
-                            <span className="absolute inset-0 bg-red-600/80 hover:bg-red-600/60 opacity-100 backdrop-blur-sm transition-opacity duration-500 "></span>
+                            <span className="absolute inset-0 bg-red-600/80 opacity-100 backdrop-blur-sm transition-opacity duration-500 hover:bg-red-600/60"></span>
                             <span className="relative z-10 flex items-center text-lg font-semibold">
                                 View Our Work
                                 <svg className="ml-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -471,6 +836,35 @@ export default function Welcome() {
                         </div>
                     </div>
                 </div>
+            </section>
+            <section className='mb-12'>
+                <MaxWidthWrapper>
+                    <div className="bg-gray-50 animate-fade-in mt-16 overflow-hidden rounded-3xl p-10 text-center md:p-16">
+                        <div className="mx-auto max-w-3xl">
+                            <h2 className="mb-6 text-3xl font-bold md:text-4xl">Ready to Transform Your Industry?</h2>
+                            <p className="mb-10 text-lg leading-relaxed">
+                                Discover how our industry-specific solutions can drive innovation, improve efficiency, and create competitive
+                                advantages for your business. Schedule a consultation with our experts today.
+                            </p>
+                            <div className="flex flex-col justify-center gap-4 sm:flex-row">
+                                <a
+                                    href="#"
+                                    className="bg-red-600 inline-flex items-center justify-center rounded-full px-10 py-4 font-semibold text-white transition-all duration-300"
+                                >
+                                    Schedule Consultation
+                                    <i className="fas fa-calendar-check ml-3"></i>
+                                </a>
+                                <a
+                                    href="#"
+                                    className="inline-flex items-center justify-center rounded-full border border-sky-500  px-10 py-4 font-semibold  transition-all duration-300 hover:bg-gray-100"
+                                >
+                                    View Case Studies
+                                    <i className="fas fa-book-open ml-3"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </MaxWidthWrapper>
             </section>
         </MainLayout>
     );
