@@ -286,7 +286,7 @@ export default function Welcome() {
                 <div className="absolute inset-0">
                     <div className="absolute -top-20 -right-20 h-96 w-96 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 opacity-30 blur-3xl"></div>
                     <div className="absolute bottom-0 left-0 h-72 w-full bg-gradient-to-t from-white via-white/50 to-transparent"></div>
-                    <div className="absolute top-1/3 left-10 h-40 w-0.5 bg-gradient-to-b from-red-400 to-purple-500"></div>
+                    <div className="absolute top-1/3 left-3 h-40 w-0.5 bg-gradient-to-b from-red-400 to-purple-500 md:left-10"></div>
                 </div>
 
                 <div className="relative mx-auto max-w-7xl px-6">
@@ -369,7 +369,7 @@ export default function Welcome() {
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="relative aspect-square overflow-hidden rounded-2xl shadow-xl">
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600"></div>
-                                    <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                                    <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-3 md:p-6">
                                         <h3 className="font-bold text-white">Our Team</h3>
                                         <p className="text-sm text-blue-200">15+ specialists collaborating globally</p>
                                     </div>
@@ -377,7 +377,7 @@ export default function Welcome() {
 
                                 <div className="relative aspect-square overflow-hidden rounded-2xl shadow-xl">
                                     <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-500"></div>
-                                    <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                                    <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-3 md:p-6">
                                         <h3 className="font-bold text-white">Our Process</h3>
                                         <p className="text-sm text-amber-200">Agile, transparent, results-driven</p>
                                     </div>
@@ -433,7 +433,7 @@ export default function Welcome() {
                                 <span className="text-black">Industries</span> We Transform
                             </span>
                         </h1>
-                        <p className="mx-auto max-w-3xl text-lg leading-relaxed md:text-xl">
+                        <p className="text-md mx-auto max-w-3xl leading-relaxed md:text-xl">
                             We deliver specialized digital solutions that drive innovation and growth across key sectors. With deep domain expertise,
                             we help businesses optimize operations, enhance customer experiences, and achieve measurable results through cutting-edge
                             technology.
@@ -443,7 +443,7 @@ export default function Welcome() {
                     <div className="grid grid-cols-1 gap-16">
                         <div className="animate-delay-200 overflow-hidden rounded-3xl bg-gray-50">
                             <div className="flex flex-col bg-gray-50 lg:flex-row">
-                                <div className="p-8 md:p-12 lg:w-2/5">
+                                <div className="px-3 py-8 md:p-12 lg:w-2/5">
                                     <h2 className="mb-6 text-3xl font-bold md:text-4xl">eCommerce Solutions</h2>
                                     <p className="mb-8 leading-relaxed">
                                         We build high-performance eCommerce platforms that drive conversions and customer loyalty. Our solutions
@@ -458,7 +458,7 @@ export default function Welcome() {
                                         <span className="tag-pill rounded-full px-4 py-2 text-sm">Payment Gateways</span>
                                     </div>
 
-                                    <div className="mb-8 grid grid-cols-2 gap-5">
+                                    <div className="mb-8 grid grid-cols-2 gap-2 md:gap-5">
                                         <div className="rounded-xl border-1 bg-gray-100 p-5 transition-all duration-300">
                                             <div className="mb-2 text-3xl font-bold text-sky-400">45%</div>
                                             <div className="text-sm">Avg. Conversion Increase</div>
@@ -471,10 +471,10 @@ export default function Welcome() {
 
                                     <a
                                         href="#"
-                                        className="btn-gradient inline-flex items-center rounded-full px-8 py-4 font-semibold text-white transition-all duration-300"
+                                        className="group btn-gradient inline-flex items-center rounded-full px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4"
                                     >
-                                        Explore eCommerce Solutions
-                                        <i className="fas fa-arrow-right ml-3 transition-transform duration-300 group-hover:translate-x-1"></i>
+                                        Explore Solutions
+                                        <i className="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1 sm:ml-3"></i>
                                     </a>
                                 </div>
 
@@ -532,7 +532,7 @@ export default function Welcome() {
                                     </div>
                                 </div>
 
-                                <div className="order-1 bg-gray-50 p-8 md:p-12 lg:order-2 lg:w-2/5">
+                                <div className="order-1 bg-gray-50 px-3 py-8 md:p-12 lg:order-2 lg:w-2/5">
                                     <h2 className="mb-6 text-3xl font-bold md:text-4xl">EdTech Innovation</h2>
                                     <p className="mb-8 leading-relaxed">
                                         We create transformative educational technologies that enhance learning outcomes. Our platforms include
@@ -559,17 +559,17 @@ export default function Welcome() {
 
                                     <a
                                         href="#"
-                                        className="btn-gradient inline-flex items-center rounded-full px-8 py-4 font-semibold text-white transition-all duration-300"
+                                        className="group btn-gradient inline-flex items-center rounded-full px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4"
                                     >
-                                        Discover EdTech Solutions
-                                        <i className="fas fa-arrow-right ml-3 transition-transform duration-300 group-hover:translate-x-1"></i>
+                                        Discover Solutions
+                                        <i className="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1 sm:ml-3"></i>
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div className="animate-fade-in animate-delay-200 overflow-hidden rounded-3xl bg-gray-50">
                             <div className="flex flex-col lg:flex-row">
-                                <div className="p-8 md:p-12 lg:w-2/5">
+                                <div className="px-3 py-8 md:p-12 lg:w-2/5">
                                     <h2 className="mb-6 text-3xl font-bold md:text-4xl">Healthcare Technology</h2>
                                     <p className="mb-8 leading-relaxed">
                                         We develop secure, compliant healthcare solutions that improve patient outcomes. Our expertise includes
@@ -596,16 +596,16 @@ export default function Welcome() {
 
                                     <a
                                         href="#"
-                                        className="btn-gradient inline-flex items-center rounded-full px-8 py-4 font-semibold text-white transition-all duration-300"
+                                        className="group btn-gradient inline-flex items-center rounded-full px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4"
                                     >
-                                        Explore Healthcare Solutions
-                                        <i className="fas fa-arrow-right ml-3 transition-transform duration-300 group-hover:translate-x-1"></i>
+                                        Explore Solutions
+                                        <i className="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1 sm:ml-3"></i>
                                     </a>
                                 </div>
 
                                 <div className="flex flex-col lg:w-3/5">
-                                    <div className="relative flex h-80 items-end bg-gray-100 p-8 transition-all duration-500 md:h-96">
-                                        <div className="absolute inset-0 bg-[url('/images/healthcare.png')] bg-cover bg-center opacity-80"></div>
+                                    <div className="relative flex h-80 items-end bg-gray-100 px-3 py-8 transition-all duration-500 md:h-96">
+                                        <div className="absolute inset-0 rounded-t-xl bg-[url('/images/healthcare.png')] bg-cover bg-center opacity-80"></div>
                                         <div className="visual-overlay absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/50 to-transparent"></div>
                                         <div className="relative z-10">
                                             <h3 className="mb-3 text-2xl font-bold text-white drop-shadow-lg">Implementation: Hospital Network</h3>
@@ -685,10 +685,10 @@ export default function Welcome() {
 
                                     <a
                                         href="#"
-                                        className="btn-gradient inline-flex items-center rounded-full px-8 py-4 font-semibold text-white transition-all duration-300"
+                                        className="group btn-gradient inline-flex items-center rounded-full px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4"
                                     >
-                                        Discuss Your Project
-                                        <i className="fas fa-arrow-right ml-3 transition-transform duration-300 group-hover:translate-x-1"></i>
+                                        Discuss Solutions
+                                        <i className="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1 sm:ml-3"></i>
                                     </a>
                                 </div>
                             </div>
@@ -837,9 +837,9 @@ export default function Welcome() {
                     </div>
                 </div>
             </section>
-            <section className='mb-12'>
+            <section className="mb-12">
                 <MaxWidthWrapper>
-                    <div className="bg-gray-50 animate-fade-in mt-16 overflow-hidden rounded-3xl p-10 text-center md:p-16">
+                    <div className="animate-fade-in mt-16 overflow-hidden rounded-3xl bg-gray-50 p-10 text-center md:p-16">
                         <div className="mx-auto max-w-3xl">
                             <h2 className="mb-6 text-3xl font-bold md:text-4xl">Ready to Transform Your Industry?</h2>
                             <p className="mb-10 text-lg leading-relaxed">
@@ -849,14 +849,14 @@ export default function Welcome() {
                             <div className="flex flex-col justify-center gap-4 sm:flex-row">
                                 <a
                                     href="#"
-                                    className="bg-red-600 inline-flex items-center justify-center rounded-full px-10 py-4 font-semibold text-white transition-all duration-300"
+                                    className="inline-flex items-center justify-center rounded-full bg-red-600 px-10 py-4 font-semibold text-white transition-all duration-300"
                                 >
                                     Schedule Consultation
                                     <i className="fas fa-calendar-check ml-3"></i>
                                 </a>
                                 <a
                                     href="#"
-                                    className="inline-flex items-center justify-center rounded-full border border-sky-500  px-10 py-4 font-semibold  transition-all duration-300 hover:bg-gray-100"
+                                    className="inline-flex items-center justify-center rounded-full border border-sky-500 px-10 py-4 font-semibold transition-all duration-300 hover:bg-gray-100"
                                 >
                                     View Case Studies
                                     <i className="fas fa-book-open ml-3"></i>
