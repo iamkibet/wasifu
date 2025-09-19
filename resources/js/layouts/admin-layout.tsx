@@ -1,4 +1,4 @@
-import { User } from '@/types';
+import { User } from '@/types/index.d';
 import { Link } from '@inertiajs/react';
 import React from 'react';
 

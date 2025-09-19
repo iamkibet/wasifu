@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,9 +13,6 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, Billable;
 
-    public const ROLE_USER = 'user';
-    public const ROLE_PRO = 'pro';
-    public const ROLE_ADMIN = 'admin';
 
     /**
      * The attributes that are mass assignable.
@@ -48,6 +46,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role' => Role::class,
         ];
     }
 
@@ -104,40 +103,31 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->role === self::ROLE_ADMIN;
+        return $this->role === Role::ADMIN;
     }
 
-    public function isPro(): bool
+    public function isUser(): bool
     {
-        return $this->role === self::ROLE_PRO || $this->isAdmin();
+        return $this->role === Role::USER;
     }
 
     public function hasProAccess(): bool
     {
-        return $this->isPro() || $this->subscribed('pro');
-    }
-
-    public function promoteToPro()
-    {
-        $this->update(['role' => self::ROLE_PRO]);
-    }
-
-    public function demoteToUser()
-    {
-        $this->update(['role' => self::ROLE_USER]);
+        return $this->isAdmin() || $this->subscribed('pro');
     }
 
     public function promoteToAdmin(): void
     {
-        $this->update(['role' => self::ROLE_ADMIN]);
+        $this->update(['role' => Role::ADMIN]);
+    }
+
+    public function demoteToUser(): void
+    {
+        $this->update(['role' => Role::USER]);
     }
 
     public function getRoleBadge(): string
     {
-        return match ($this->role) {
-            self::ROLE_ADMIN => 'Admin',
-            self::ROLE_PRO => 'Pro',
-            default => 'User',
-        };
+        return $this->role->label();
     }
 }

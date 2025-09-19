@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProfileController;
@@ -46,8 +47,21 @@ Route::get('/contact', function () {
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Dashboard - redirect based on role
+    Route::get('/dashboard', function (Request $request) {
+        if (auth()->user()->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+        return app(DashboardController::class)->index($request);
+    })->name('dashboard');
+    
+    // Home redirect - redirect authenticated users to appropriate dashboard
+    Route::get('/home', function () {
+        if (auth()->user()->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('dashboard');
+    })->name('home');
 
     // Profile Management
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -125,8 +139,8 @@ Route::post('/stripe/webhook', [BillingController::class, 'handleWebhook'])
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
 
-// Admin routes
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::post('/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('admin.users.role');
+// Admin routes - protected by role middleware
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::post('/admin/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('admin.users.role');
 });

@@ -6,6 +6,11 @@ export interface User {
     id: number;
     name: string;
     email: string;
+    avatar?: string;
+    email_verified_at: string;
+    role: 'user' | 'admin';
+    created_at: string;
+    updated_at: string;
     onFreePlan: boolean;
 }
 
