@@ -1,6 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { LoaderCircle, Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
+import { FormEventHandler, useState } from 'react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -17,6 +17,9 @@ type RegisterForm = {
 };
 
 export default function Register() {
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+    
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         name: '',
         email: '',
@@ -34,10 +37,14 @@ export default function Register() {
     return (
         <AuthLayout title="Create an account" description="Enter your details below to create your account">
             <Head title="Register" />
-            <form className="flex flex-col gap-6" onSubmit={submit}>
-                <div className="grid gap-6">
-                    <div className="grid gap-2">
-                        <Label htmlFor="name">Name</Label>
+            <form className="space-y-6" onSubmit={submit}>
+                {/* Name Field */}
+                <div className="space-y-2">
+                    <Label htmlFor="name" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Full Name
+                    </Label>
+                    <div className="relative">
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <Input
                             id="name"
                             type="text"
@@ -48,13 +55,20 @@ export default function Register() {
                             value={data.name}
                             onChange={(e) => setData('name', e.target.value)}
                             disabled={processing}
-                            placeholder="Full name"
+                            placeholder="Enter your full name"
+                            className="pl-10 h-12 border-gray-300 dark:border-gray-600 focus:border-orange-500 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
                         />
-                        <InputError message={errors.name} className="mt-2" />
                     </div>
+                    <InputError message={errors.name} />
+                </div>
 
-                    <div className="grid gap-2">
-                        <Label htmlFor="email">Email address</Label>
+                {/* Email Field */}
+                <div className="space-y-2">
+                    <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Email Address
+                    </Label>
+                    <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <Input
                             id="email"
                             type="email"
@@ -64,55 +78,97 @@ export default function Register() {
                             value={data.email}
                             onChange={(e) => setData('email', e.target.value)}
                             disabled={processing}
-                            placeholder="email@example.com"
+                            placeholder="Enter your email"
+                            className="pl-10 h-12 border-gray-300 dark:border-gray-600 focus:border-orange-500 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
                         />
-                        <InputError message={errors.email} />
                     </div>
+                    <InputError message={errors.email} />
+                </div>
 
-                    <div className="grid gap-2">
-                        <Label htmlFor="password">Password</Label>
+                {/* Password Field */}
+                <div className="space-y-2">
+                    <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Password
+                    </Label>
+                    <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <Input
                             id="password"
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             required
                             tabIndex={3}
                             autoComplete="new-password"
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
                             disabled={processing}
-                            placeholder="Password"
+                            placeholder="Create a password"
+                            className="pl-10 pr-10 h-12 border-gray-300 dark:border-gray-600 focus:border-orange-500 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
                         />
-                        <InputError message={errors.password} />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                        >
+                            {showPassword ? (
+                                <EyeOff className="h-5 w-5" />
+                            ) : (
+                                <Eye className="h-5 w-5" />
+                            )}
+                        </button>
                     </div>
+                    <InputError message={errors.password} />
+                </div>
 
-                    <div className="grid gap-2">
-                        <Label htmlFor="password_confirmation">Confirm password</Label>
+                {/* Confirm Password Field */}
+                <div className="space-y-2">
+                    <Label htmlFor="password_confirmation" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Confirm Password
+                    </Label>
+                    <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <Input
                             id="password_confirmation"
-                            type="password"
+                            type={showPasswordConfirmation ? "text" : "password"}
                             required
                             tabIndex={4}
                             autoComplete="new-password"
                             value={data.password_confirmation}
                             onChange={(e) => setData('password_confirmation', e.target.value)}
                             disabled={processing}
-                            placeholder="Confirm password"
+                            placeholder="Confirm your password"
+                            className="pl-10 pr-10 h-12 border-gray-300 dark:border-gray-600 focus:border-orange-500 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
                         />
-                        <InputError message={errors.password_confirmation} />
+                        <button
+                            type="button"
+                            onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                        >
+                            {showPasswordConfirmation ? (
+                                <EyeOff className="h-5 w-5" />
+                            ) : (
+                                <Eye className="h-5 w-5" />
+                            )}
+                        </button>
                     </div>
-
-                    <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
-                        {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                        Create account
-                    </Button>
+                    <InputError message={errors.password_confirmation} />
                 </div>
 
-                <div className="text-muted-foreground text-center text-sm">
-                    Already have an account?{' '}
-                    <TextLink href={route('login')} tabIndex={6}>
-                        Log in
-                    </TextLink>
-                </div>
+                {/* Submit Button */}
+                <Button 
+                    type="submit" 
+                    className="w-full h-12 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-colors duration-200" 
+                    tabIndex={5} 
+                    disabled={processing}
+                >
+                    {processing ? (
+                        <>
+                            <LoaderCircle className="h-4 w-4 animate-spin mr-2" />
+                            Creating account...
+                        </>
+                    ) : (
+                        'Create your account'
+                    )}
+                </Button>
             </form>
         </AuthLayout>
     );

@@ -20,15 +20,15 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@wasifu.com',
-            'password' => bcrypt('password'),
+            'password' => 'password', // Let Laravel handle the hashing via the 'hashed' cast
             'role' => Role::ADMIN,
         ]);
 
         // Create normal user
         User::factory()->create([
             'name' => 'Normal User',
-            'email' => 'user@myshop.com',
-            'password' => bcrypt('password'),
+            'email' => 'user@wasifu.com',
+            'password' => 'password', // Let Laravel handle the hashing via the 'hashed' cast
             'role' => Role::USER,
         ]);
     }

@@ -40,6 +40,7 @@ export interface User {
     role: 'user' | 'admin';
     created_at: string;
     updated_at: string;
+    onFreePlan: boolean;
     [key: string]: unknown; // This allows for additional properties...
 }
 
@@ -54,6 +55,9 @@ export interface Profile {
     id: number;
     user_id: number;
     full_name: string;
+    phone_number?: string;
+    address?: string;
+    email?: string;
     professional_summary: string;
     work_experience: {
         company: string;

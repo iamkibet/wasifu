@@ -1,5 +1,5 @@
 import ActivityTable from '@/components/dashboard/activity-table';
-import LoaderSequence from '@/components/dashboard/loader-sequence';
+import WelcomeScreen from '@/components/dashboard/welcome-screen';
 import QuickCarousel from '@/components/dashboard/quick-carousel';
 import UsageGrid from '@/components/dashboard/usage-grid';
 import { Button } from '@/Components/ui/button';
@@ -7,9 +7,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Com
 import AppLayout from '@/layouts/app-layout';
 
 import { type BreadcrumbItem } from '@/types';
+import { useDashboardLoader } from '@/hooks/use-dashboard-loader';
+import '@/utils/loader-test-utils'; // Load test utilities in development
 import { Link, usePage } from '@inertiajs/react';
 import { Download, Edit, FileText, Plus, Share2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { toast } from 'sonner';
 
@@ -58,8 +60,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Dashboard({ user, stats, recentDocuments }: DashboardProps) {
-    const [isLoading, setIsLoading] = useState(true);
     const { flash } = usePage<PageProps>().props;
+    const { isLoading, handleLoaderComplete } = useDashboardLoader({ userId: user.id });
 
     useEffect(() => {
         if (flash?.success) {
@@ -71,7 +73,7 @@ export default function Dashboard({ user, stats, recentDocuments }: DashboardPro
     }, [flash]);
 
     if (isLoading) {
-        return <LoaderSequence onComplete={() => setIsLoading(false)} />;
+        return <WelcomeScreen userName={user.name} onComplete={handleLoaderComplete} />;
     }
 
     return (

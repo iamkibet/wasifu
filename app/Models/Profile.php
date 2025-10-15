@@ -10,6 +10,9 @@ class Profile extends Model
     protected $fillable = [
         'user_id',
         'full_name',
+        'phone_number',
+        'address',
+        'email',
         'professional_summary',
         'work_experience',
         'education',

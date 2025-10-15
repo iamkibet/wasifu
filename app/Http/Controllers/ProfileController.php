@@ -36,6 +36,9 @@ class ProfileController extends Controller
     {
         $validated = $request->validate([
             'full_name' => 'required|string|max:255',
+            'phone_number' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:500',
+            'email' => 'nullable|email|max:255',
             'professional_summary' => 'required|string',
             'work_experience' => 'required|array',
             'work_experience.*.company' => 'required|string|max:255',
@@ -108,29 +111,41 @@ class ProfileController extends Controller
     {
         Gate::authorize('update', $profile);
 
+        // Debug: Log the incoming request data
+        \Log::info('Profile update request data:', $request->all());
+
         $validated = $request->validate([
             'full_name' => 'required|string|max:255',
+            'phone_number' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:500',
+            'email' => 'nullable|email|max:255',
             'professional_summary' => 'required|string',
-            'work_experience' => 'required|array',
+            'work_experience' => 'required|array|min:1',
             'work_experience.*.company' => 'required|string|max:255',
             'work_experience.*.position' => 'required|string|max:255',
             'work_experience.*.start_date' => 'required|date',
             'work_experience.*.end_date' => 'required|date',
             'work_experience.*.description' => 'required|string',
-            'education' => 'required|array',
+            'education' => 'required|array|min:1',
             'education.*.institution' => 'required|string|max:255',
             'education.*.degree' => 'required|string|max:255',
             'education.*.field' => 'required|string|max:255',
             'education.*.graduation_date' => 'required|date',
-            'skills' => 'required|array',
-            'skills.*' => 'string|max:255',
+            'skills' => 'required|array|min:1',
+            'skills.*' => 'required|string|max:255',
             'certifications' => 'nullable|array',
             'certifications.*' => 'string|max:255',
         ]);
 
+        // Debug: Log the validated data
+        \Log::info('Profile update validated data:', $validated);
+
         $profile->update($validated);
 
-        return redirect()->route('profile.index')
+        // Debug: Log the updated profile
+        \Log::info('Profile updated successfully:', $profile->toArray());
+
+        return redirect()->route('profile.show', $profile)
             ->with('flash', ['success' => 'Profile updated successfully.']);
     }
 
